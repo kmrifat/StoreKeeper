@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.sell.NewSellController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="642.0" prefWidth="874.0" stylesheets="@../../../style/PopUp.css">
+         <children>
+            <BorderPane prefHeight="500.0" prefWidth="700.0" stylesheets="@../../../style/MainStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <Pane prefHeight="607.0" prefWidth="868.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <GridPane layoutX="48.0" layoutY="98.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <MenuButton fx:id="mbtnCustomer" mnemonicParsing="false" onMouseClicked="#mbtnCustomerOnClicked" prefHeight="25.0" prefWidth="309.0" text="Select Customer" GridPane.columnSpan="3">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <TextField fx:id="tfCustomerSearch" onKeyReleased="#tfCustomerSearchOnKeyReleased" prefHeight="25.0" prefWidth="259.0" />
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <TableView fx:id="tblCustomerSortView" onMouseClicked="#tblCustomerOnClick" prefHeight="214.0" prefWidth="340.0">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="tblClmCustomerName" prefWidth="142.0" text="Customer Name" />
+                                                <TableColumn fx:id="tblClmCustomerPhoneNo" prefWidth="196.0" text="Customer Phone no" />
+                                             </columns>
+                                          </TableView>
+                                       </graphic>
+                                    </MenuItem>
+                                 </items>
+                              </MenuButton>
+                              <Label text="Enter Product Id :" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="tfProductId" onAction="#tfProductIdOnAction" promptText="Enter Product Id and hit enter" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+                              <TableView fx:id="tblSellPreList" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="8" GridPane.rowIndex="12" GridPane.rowSpan="4">
+                                <columns>
+                                  <TableColumn fx:id="tblClmSellId" prefWidth="89.0" text="SellId" visible="false" />
+                                  <TableColumn fx:id="tblClmProductId" prefWidth="101.0" text="Product Id" />
+                                    <TableColumn fx:id="tblClmQuantity" prefWidth="75.0" text="Quantity" />
+                                    <TableColumn fx:id="tblClmSellPrice" prefWidth="91.0" text="Sell Price" />
+                                    <TableColumn fx:id="tblClmTotalPrice" prefWidth="103.0" text="Total" />
+                                    <TableColumn fx:id="tblClmCustomer" prefWidth="111.0" text="Customer" visible="false" />
+                                    <TableColumn fx:id="tblClmSolledBy" prefWidth="75.0" text="Solled by" visible="false" />
+                                    <TableColumn fx:id="tblClmWarrentyVoidDate" prefWidth="75.0" text="Warrenty Void Date" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Label text="Quantity" GridPane.rowIndex="5" />
+                              <TextField fx:id="tfQuantity" onKeyReleased="#tfQuantityOnAction" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+                              <Label fx:id="lblCurrentQuantity" text="Have" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <Label text="On Stock :" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="tfSellPrice" onKeyReleased="#tfSellPriceOnAction" GridPane.columnSpan="3" GridPane.rowIndex="8" />
+                              <Label text="Sell Price" GridPane.rowIndex="7" />
+                              <Label text="Purses Price :" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label fx:id="lblPursesPrice" text="is" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                              <Label text="Total Cost :" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+                              <Label fx:id="lblTotal" GridPane.columnIndex="5" GridPane.rowIndex="16">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Items Cost :" GridPane.rowIndex="9" />
+                              <Label text="Total Items" GridPane.rowIndex="10" />
+                              <Label fx:id="lblNetCost" text="50000" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                              <Label fx:id="lblTotalItems" text="0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+                              <Label text="Supplied by" GridPane.columnIndex="4" />
+                              <Label fx:id="lblUnit" text="Unit" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                              <Label text="Category" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                              <Label text="Brand" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <Label text="Warrenty Void On :" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                              <TextField fx:id="tfSupplyer" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="tfBrand" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+                              <TextField fx:id="tfCatagory" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+                              <TextField fx:id="tfWarrentVoidDate" editable="false" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+                              <Button fx:id="btnAddToChart" mnemonicParsing="false" onAction="#btnAddToChartOnAction" text="Add to Cart" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+                              <Button fx:id="btnSell" mnemonicParsing="false" onAction="#btnSellOnAction" text="Sell Now" GridPane.columnIndex="6" GridPane.rowIndex="10" />
+                              <Pane GridPane.columnIndex="3">
+                                 <children>
+                                    <Button fx:id="btnAddCustomer" layoutX="14.0" layoutY="-1.0" mnemonicParsing="false" onAction="#btnAddCustomerOnAction" prefHeight="34.0" prefWidth="32.0" stylesheets="@../../../style/AddButton.css" />
+                                 </children>
+                              </Pane>
+                              <Label text="Purses On" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                              <Label fx:id="lblPursesDate" text="Label" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+                              <Label text="Product Name :" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="tfProductName" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                              <Button fx:id="btnClearSelected" mnemonicParsing="false" onAction="#btnClearSelectedOnAction" text="Delete selected item" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+                           </children>
+                        </GridPane>
+                        <Label layoutX="48.0" layoutY="29.0" prefHeight="39.0" prefWidth="255.0" text="SELL ORDER :">
+                           <font>
+                              <Font name="System Bold" size="31.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblSellId" layoutX="321.0" layoutY="29.0" prefHeight="39.0" prefWidth="545.0" text="ID">
+                           <font>
+                              <Font name="System Bold" size="31.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnClose" layoutX="860.0" layoutY="-6.0" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="34.0" prefWidth="32.0" stylesheets="@../../../style/btnOnText.css" />
+   </children>
+</Group>

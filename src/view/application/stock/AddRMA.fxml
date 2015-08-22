@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.stock.AddRMAController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="385.0" prefWidth="386.0">
+         <children>
+            <GridPane layoutX="37.0" layoutY="62.0">
+               <children>
+                  <Label text="RMA Name :" />
+                  <Label text="RMA Days :" GridPane.rowIndex="2" />
+                  <Label text="Comment :" GridPane.rowIndex="4" />
+                  <TextField fx:id="tfRMAName" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfRMADayes" onKeyReleased="#tfRMADays" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+                  <TextArea fx:id="taRMAComment" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="5" GridPane.rowSpan="3" />
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSave" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <Label fx:id="lblContent" alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="26.0" prefHeight="33.0" prefWidth="300.0" text="LABLE CONTENT">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+         </children>
+         <stylesheets>
+            <URL value="@../../../style/MainStyle.css" />
+            <URL value="@../../../style/PopUp.css" />
+         </stylesheets>
+      </AnchorPane>
+      <Button fx:id="btnClose" layoutX="376.0" layoutY="-5.0" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="31.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" />
+   </children>
+</Group>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="608.0" prefWidth="871.0" stylesheets="@../../../style/Home.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.home.HomeController">
+   <children>
+      <BorderPane layoutX="262.0" layoutY="138.0" prefHeight="540.0" prefWidth="723.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="111.0" prefWidth="683.0" style="-fx-border-color: #ff4e3c; -fx-border-style: solid; -fx-border-width: 0px 0px 5px;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" layoutX="194.0" layoutY="28.0" prefHeight="133.0" prefWidth="831.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane prefHeight="106.0" prefWidth="469.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="357.0" prefWidth="683.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <HBox alignment="CENTER" layoutX="177.0" layoutY="165.0" prefHeight="344.0" prefWidth="683.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <AnchorPane prefHeight="392.0" prefWidth="648.0">
+                           <children>
+                              <VBox layoutX="215.0" layoutY="73.0" prefHeight="392.0" prefWidth="648.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="lblOrgName" alignment="CENTER" prefHeight="55.0" prefWidth="641.0" text="Organization Name">
+                                       <font>
+                                          <Font name="System Bold" size="27.0" />
+                                       </font>
+                                    </Label>
+                                    <Text fx:id="txtOrgAddress" strokeType="OUTSIDE" strokeWidth="0.0" text="Organization Address" textAlignment="CENTER" wrappingWidth="647.7294921875" />
+                                    <Text fx:id="txtorgPhoneNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Org. Phone Number" textAlignment="CENTER" wrappingWidth="647.7294921875" />
+                                 </children>
+                              </VBox>
+                              <GridPane layoutX="158.0" layoutY="144.0" prefHeight="193.0" prefWidth="358.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Stock Value :" GridPane.rowIndex="1" />
+                                    <Label text="Total Items :">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Total Supplyer :" GridPane.rowIndex="2" />
+                                    <Label text="Total Employee :" GridPane.rowIndex="5" />
+                                    <Label fx:id="lblTotalItem" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblStockValue" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblTotalSupplyer" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblTotalEmployee" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Total Sell :" GridPane.rowIndex="3" />
+                                    <Label fx:id="lblTotalSell" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Sell Value :" GridPane.rowIndex="4" />
+                                    <Label fx:id="lblSellValue" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children></AnchorPane>
+         </center>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+         <bottom>
+            <AnchorPane prefHeight="85.0" prefWidth="683.0" style="-fx-border-color: ff4e3c; -fx-border-width: 5px 0px 0px 0px; -fx-bo: ;" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

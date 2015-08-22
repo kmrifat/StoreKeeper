@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.settings.BackupController">
+   <children>
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="189.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="400.0" prefWidth="345.0">
+               <children>
+                  <Button layoutX="114.0" layoutY="128.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" text="Backup" />
+                  <Button layoutX="113.0" layoutY="188.0" mnemonicParsing="false" text="Restor from file" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

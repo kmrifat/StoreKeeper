@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="526.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.EmployeController">
+   <children>
+      <BorderPane fx:id="bpContent" layoutX="318.0" layoutY="172.0" prefHeight="526.0" prefWidth="736.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <StackPane fx:id="spEmployeContent" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <GridPane prefHeight="61.0" prefWidth="736.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="lblView" layoutX="14.0" layoutY="7.0" text="Label">
+                                 <font>
+                                    <Font size="32.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <AnchorPane prefHeight="89.0" prefWidth="192.0">
+                           <children>
+                              <MenuBar layoutX="77.0" layoutY="16.0">
+                                <menus>
+                                  <Menu mnemonicParsing="false" text="Employee">
+                                    <items>
+                                      <MenuItem fx:id="btnAddEmployee" mnemonicParsing="false" onAction="#btnAddEmployeeOnClick" text="Add Employee" />
+                                          <MenuItem fx:id="btnViewEmployee" mnemonicParsing="false" onAction="#btnViewEmployeeOnAction" text="View Employee" />
+                                    </items>
+                                       <graphic>
+                                          <ImageView fx:id="ivEmployeIcon" fitHeight="28.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                                       </graphic>
+                                  </Menu>
+                                </menus>
+                              </MenuBar>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

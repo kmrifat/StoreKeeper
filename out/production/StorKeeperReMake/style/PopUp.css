@@ -1,0 +1,9 @@
+AnchorPane{
+    -fx-background-color: white;
+    -fx-background-radius:10;
+    -fx-border-style:solid;
+    -fx-border-width: 2px;
+    -fx-background-size: 100%;
+    -fx-border-radius:10;
+    -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}

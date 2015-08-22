@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="342.0" prefWidth="491.0" stylesheets="@../style/MainStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoryController">
+   <children>
+      <VBox layoutX="167.0" layoutY="38.0" prefHeight="328.0" prefWidth="484.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="81.0" prefWidth="484.0">
+               <children>
+                  <Label fx:id="lblHistory" layoutX="31.0" layoutY="33.0" text="History" />
+               </children>
+            </AnchorPane>
+            <TextArea fx:id="tfHistory" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane prefHeight="65.0" prefWidth="491.0">
+               <children>
+                  <Button fx:id="btnClose" layoutX="394.0" layoutY="20.0" mnemonicParsing="false" onAction="#btnCloseOnAction" text="Close" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

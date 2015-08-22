@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="560.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.employe.AddEmployeController">
+   <children>
+      <HBox alignment="CENTER" layoutX="300.0" layoutY="167.0" prefHeight="481.0" prefWidth="612.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="560.0" prefWidth="559.0">
+               <children>
+                  <ScrollPane layoutX="64.0" layoutY="57.0" prefHeight="560.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                      <AnchorPane prefHeight="514.0" prefWidth="557.0">
+                           <children>
+                              <GridPane layoutX="9.0" layoutY="4.0" prefHeight="514.0" prefWidth="557.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="User Name :" GridPane.columnSpan="2" />
+                                    <Label text="Full Name :" GridPane.rowIndex="2" />
+                                    <Label text="Email :" GridPane.rowIndex="4" />
+                                    <Label text="Phone :" GridPane.rowIndex="6" />
+                                    <Label text="Salary :" GridPane.rowIndex="8" />
+                                    <Label text="Password :" GridPane.rowIndex="10" />
+                                    <Label text="Address :" GridPane.rowIndex="12" />
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                                       <children>
+                                          <Button fx:id="btnAttachImage" layoutX="51.0" layoutY="4.0" mnemonicParsing="false" onAction="#btnAttachImageOnAction" prefHeight="25.0" prefWidth="149.0" text="Attach Image" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="16">
+                                       <children>
+                                          <Button fx:id="btnSave" layoutX="75.0" layoutY="3.0" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="13" GridPane.rowSpan="2">
+                                       <children>
+                                          <TextArea fx:id="taAddress" layoutX="-30.0" layoutY="-86.0" prefHeight="114.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="5">
+                                       <children>
+                                          <ImageView fx:id="imvUsrImg" fitHeight="150.0" fitWidth="152.0" layoutX="48.0" pickOnBounds="true" />
+                                       </children>
+                                    </AnchorPane>
+                                    <TextField fx:id="tfUserName" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfFullName" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+                                    <TextField fx:id="tfEmail" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+                                    <TextField fx:id="tfPhone" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+                                    <TextField fx:id="tfSalary" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+                                    <TextField fx:id="tfPassword" GridPane.columnSpan="3" GridPane.rowIndex="11" />
+                                    <Button fx:id="btnClrUsrName" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                    <Button fx:id="btnClrFullName" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                                    <Button fx:id="btnClrEmail" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                                    <Button fx:id="btnClrPhone" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                                    <Button fx:id="btnClrSalary" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                                    <Button fx:id="btnClrPassword" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="3" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children></AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="512.0" prefWidth="729.0" stylesheets="@../../../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.stock.ViewCatagoryController">
+   <children>
+      <BorderPane layoutX="234.0" layoutY="130.0" prefHeight="512.0" prefWidth="729.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TableView fx:id="tblCatagory" onMouseClicked="#tblCatagoryOnClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: none; -fx-border-color: none;" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="clmCatagoryId" prefWidth="75.0" text="C1" visible="false" />
+                  <TableColumn fx:id="tablClmBox" maxWidth="43.0" prefWidth="43.0" text="CB" />
+                <TableColumn fx:id="clmCatagoryName" prefWidth="188.0" text="Category Name" />
+                  <TableColumn fx:id="clmCatagoryBrand" prefWidth="125.0" text="Brand" />
+                  <TableColumn fx:id="clmSupplyer" prefWidth="108.0" text="Supplier" />
+                  <TableColumn fx:id="clmCatagoryCreator" prefWidth="118.0" text="Category Creator" />
+                  <TableColumn fx:id="clmCatagoryDate" prefWidth="109.0" text="Create Date" />
+                  <TableColumn fx:id="clmCatagoryDescription" prefWidth="150.0" sortable="false" text="Description" />
+              </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem fx:id="miSearch" mnemonicParsing="false" onAction="#miSearchOnAction" text="Search" />
+                        <MenuItem fx:id="miUpdate" mnemonicParsing="false" onAction="#miUpdateOnAction" text="Update / Edit" />
+                        <MenuItem fx:id="miAddNew" mnemonicParsing="false" onAction="#miAddNewOnAction" text="Add New Catagory" />
+                        <MenuItem fx:id="miDelete" mnemonicParsing="false" onAction="#miDeleteOnAction" text="Delete" />
+                        <MenuItem fx:id="miView" mnemonicParsing="false" onAction="#miViewOnAction" text="View" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </center>
+         <top>
+            <HBox alignment="CENTER" prefHeight="63.0" prefWidth="729.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="tfSearch" onKeyReleased="#tfSearchOnType" prefHeight="31.0" prefWidth="586.0" promptText="Search Category" />
+                  <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#btnRefreshOnAction" prefHeight="30.0" prefWidth="33.0" />
+               </children>
+            </HBox>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefHeight="72.0" prefWidth="729.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add New" />
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
+                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
+               </children>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets left="30.0" right="30.0" />
+   </padding>
+</AnchorPane>

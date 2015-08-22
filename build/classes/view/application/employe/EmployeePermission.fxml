@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.employe.EmployeePermissionController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="20.0" layoutY="20.0" prefHeight="563.0" prefWidth="618.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-style: solid; -fx-border: 2;" stylesheets="@../../../style/MainStyle.css">
+         <effect>
+            <DropShadow height="28.59" radius="14.934999999999999" width="33.15" />
+         </effect>
+         <children>
+            <GridPane layoutX="11.0" layoutY="41.0" prefHeight="117.0" prefWidth="593.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="133.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="145.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="143.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CheckBox fx:id="cbStockManegement" mnemonicParsing="false" onAction="#cbStockOnAction" onMouseClicked="#cbSotckMangeOnClick" text="Stock Manegement" GridPane.columnSpan="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="cbAddProduct" mnemonicParsing="false" text="Add Product" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbAddSupplyer" mnemonicParsing="false" text="Add Supplyer" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbAddBrand" mnemonicParsing="false" text="Add Brands" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbAddCatagory" mnemonicParsing="false" text="Add Catagory" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbUpdateProduct" mnemonicParsing="false" text="Update Product" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="cbUpdateSupplyert" mnemonicParsing="false" text="Update Supplyer" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="cbUpdateBrands" mnemonicParsing="false" text="Update Brands" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="cbUpdateCatagory" mnemonicParsing="false" prefHeight="24.0" prefWidth="145.0" text="Update Catagory" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <CheckBox fx:id="cbAddUnit" mnemonicParsing="false" text="Add Unit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cbUpdateUnit" layoutX="31.0" layoutY="74.0" mnemonicParsing="false" text="Update Unit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cbMenageRMA" mnemonicParsing="false" text="Menage RMA" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="11.0" layoutY="182.0" prefHeight="75.0" prefWidth="572.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="28.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="134.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="125.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="145.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="142.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CheckBox fx:id="cbSellManegement" mnemonicParsing="false" onAction="#cbSellManegementOnAction" text="Sell Management" GridPane.columnSpan="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="cbSellProduct" mnemonicParsing="false" text="Sell Product" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbAddCustomer" mnemonicParsing="false" text="Add Customer" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbUpdateCustomer" mnemonicParsing="false" text="Update Customer" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbProvideDiscount" mnemonicParsing="false" text="Provie Discount" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="11.0" layoutY="265.0" prefHeight="75.0" prefWidth="572.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="25.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="222.0" minWidth="10.0" prefWidth="125.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="136.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="187.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CheckBox fx:id="cbEmployeeManegement" mnemonicParsing="false" onAction="#cbEmployeeManegementOnAction" text="Employee Management" GridPane.columnSpan="3">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="cbAddEmployee" disable="true" mnemonicParsing="false" text="Add Employee" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbUpdateEmployee" disable="true" mnemonicParsing="false" text="Update Employe" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <CheckBox fx:id="cbEmployePassChange" disable="true" mnemonicParsing="false" text="Change Employe Password" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="8.0" layoutY="349.0" prefHeight="67.0" prefWidth="459.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="16.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="204.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="19.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CheckBox fx:id="cbUser" indeterminate="true" mnemonicParsing="false" onAction="#cbUserOnAction" text="User" GridPane.columnSpan="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="cbChangePassword" mnemonicParsing="false" text="Change Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox disable="true" mnemonicParsing="false" selected="true" text="Change Personal Details" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Button fx:id="btnUpdate" layoutX="259.0" layoutY="507.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
+            <Text layoutX="165.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Permissions">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="cbOrgManage" layoutX="14.0" layoutY="441.0" mnemonicParsing="false" text="Org mange" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="btnClose" layoutX="612.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnCloseOnClick" prefHeight="37.0" prefWidth="38.0" stylesheets="@../../../style/btnOnText.css" />
+   </children>
+</Group>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="189.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.popup.SucessController">
+   <children>
+      <Pane layoutY="146.0" prefHeight="43.0" prefWidth="396.0" style="-fx-background-color: green;">
+         <children>
+            <Button fx:id="btnClose" layoutX="317.0" layoutY="5.0" mnemonicParsing="false" onAction="#btnCloseOnAction" text="OK" />
+         </children>
+      </Pane>
+      <ImageView fx:id="ivSucessImage" fitHeight="133.0" fitWidth="138.0" layoutY="7.0" pickOnBounds="true" />
+      <Label layoutX="138.0" layoutY="17.0" text="SUCESS !" textFill="#2eab30">
+         <font>
+            <Font name="Noto Sans Lao Bold" size="31.0" />
+         </font>
+      </Label>
+      <Text fx:id="message" fill="#171717" fontSmoothingType="LCD" layoutX="142.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="233.7294921875" />
+   </children>
+</AnchorPane>

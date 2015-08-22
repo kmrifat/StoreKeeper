@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.settings.PassChangeController">
+    <children>
+        <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="346.0" prefWidth="406.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-style: solid; -fx-border-width: 2; -fx-border-color: gray; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-size: 100%; -fx-border-radius: 10;" stylesheets="@../../../style/MainStyle.css">
+         <children>
+            <GridPane layoutY="70.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="62.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="138.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="137.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="63.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Current Password :" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Label text="New Password :" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label text="Re-Type New Password :" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                  <PasswordField fx:id="pfCurrentPass" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="pfNewPass" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <PasswordField fx:id="pfRePass" onAction="#pfOnAction" onKeyReleased="#pfNewPassWordMatch" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                  <Button fx:id="btnClrCurrentPf" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Button fx:id="btnClrRePass" layoutX="312.0" layoutY="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                  <Button fx:id="btnClrNewPass" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <ImageView fx:id="imgCurrentPassMatch" fitHeight="25.0" fitWidth="35.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <ImageView fx:id="imgNewPassMatch" fitHeight="25.0" fitWidth="35.0" layoutX="347.0" layoutY="43.0" pickOnBounds="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Text layoutX="64.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change password" underline="true">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnChangePass" layoutX="142.0" layoutY="284.0" mnemonicParsing="false" onAction="#btnChangePassOnAction" text="Change" />
+         </children>
+         <effect>
+            <Shadow />
+         </effect></AnchorPane>
+      <Button fx:id="btnClose" layoutX="401.0" layoutY="-4.0" mnemonicParsing="false" onAction="#btnCloseOnAction" prefHeight="34.0" prefWidth="31.0" stylesheets="@../../../style/btnOnText.css" />
+    </children>
+</Group>

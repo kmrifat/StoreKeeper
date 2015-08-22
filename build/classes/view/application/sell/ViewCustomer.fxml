@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="acCustomerMainContent" prefHeight="509.0" prefWidth="763.0" stylesheets="@../../../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.sell.ViewCustomerController">
+   <children>
+      <BorderPane layoutX="253.0" layoutY="132.0" prefHeight="509.0" prefWidth="763.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TableView fx:id="tblCustomer" onMouseClicked="#tblCustomerOnClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: none;" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="tblClmName" prefWidth="104.0" text="Name" />
+                <TableColumn fx:id="tblClmContNo" prefWidth="124.0" text="Cont. No" />
+                  <TableColumn fx:id="tblClmAddres" prefWidth="137.0" text="Address" />
+                  <TableColumn fx:id="tblClmDate" prefWidth="123.0" text="Supplyer Since" />
+                  <TableColumn fx:id="tblClmAddBy" prefWidth="128.0" text="Added By" />
+                  <TableColumn fx:id="tblClmTotalBuy" prefWidth="146.0" text="Total Buy" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </center>
+         <top>
+            <HBox alignment="CENTER" prefHeight="65.0" prefWidth="763.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="tfSearch" onKeyReleased="#tfSearchOnKeyReleased" prefHeight="25.0" prefWidth="603.0" promptText="Search Customer" />
+                  <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#btnRefreshOnAction" prefHeight="32.0" prefWidth="32.0" />
+               </children>
+            </HBox>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefHeight="69.0" prefWidth="763.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#btnAddOnAction" text="Add New Customer" />
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
+                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
+               </children>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </BorderPane>
+   </children>
+</AnchorPane>

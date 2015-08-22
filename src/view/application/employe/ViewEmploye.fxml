@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="604.0" prefWidth="877.0" stylesheets="@../../../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.employe.ViewEmployeController">
+   <children>
+      <BorderPane layoutX="294.0" layoutY="147.0" prefHeight="604.0" prefWidth="877.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <BorderPane prefHeight="604.0" prefWidth="214.0" BorderPane.alignment="CENTER">
+               <top>
+                  <TextField fx:id="tfSearch" onAction="#tfSearchOnAction" prefHeight="38.0" prefWidth="214.0" promptText="Search Employee" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <TableView fx:id="tblEmoyeeList" onKeyReleased="#tblViewOnClick" onMouseClicked="#tblEmloyeOnClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="clmEmployeId" prefWidth="75.0" text="ID" visible="false" />
+                      <TableColumn fx:id="clmEmployeName" prefWidth="138.0" text="Employee List" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </center>
+            </BorderPane>
+         </left>
+         <center>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="604.0" prefWidth="590.0">
+                     <children>
+                        <GridPane prefHeight="480.0" prefWidth="480.0">
+                           <children>
+                              <Label text="User Name :" />
+                              <Label text="Full Name :" GridPane.rowIndex="2" />
+                              <Label text="Phone Number :" GridPane.rowIndex="4" />
+                              <Label text="Email :" GridPane.rowIndex="6" />
+                              <Label text="Salary :" GridPane.rowIndex="8" />
+                              <Label text="Date of Join :" GridPane.rowIndex="10" />
+                              <Label text="Add By :" GridPane.rowIndex="12" />
+                              <TextField fx:id="tfUserName" disable="true" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                              <TextField fx:id="tfFullName" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="tfPhoneNumber" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                              <TextField fx:id="tfEmailAddress" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                              <TextField fx:id="tfSalary" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                              <TextField fx:id="tfDateofJoin" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+                              <TextField fx:id="tfCreatedBy" disable="true" editable="false" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowSpan="6">
+                                 <children>
+                                    <Rectangle fx:id="recUsrImage" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="134.0" layoutX="34.0" stroke="BLACK" strokeType="INSIDE" width="128.0" />
+                                    <Button fx:id="btnAttachImage" layoutX="48.0" layoutY="141.0" mnemonicParsing="false" onAction="#btnAttachImageOnAction" text="Attach image" />
+                                 </children>
+                              </AnchorPane>
+                              <Label text="Address :" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                              <TextArea fx:id="taAddress" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="9" GridPane.rowSpan="3" />
+                              <Button fx:id="btnClrFulNametf" layoutX="167.0" layoutY="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                              <Button fx:id="btnClrPhonetf" layoutX="10.0" layoutY="103.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                              <Button fx:id="btnClrEmailtf" layoutX="10.0" layoutY="163.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                              <Button fx:id="btnClrSalarytf" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                              <Button fx:id="btnClrDatestf" layoutX="10.0" layoutY="283.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../../../style/btnOnText.css" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
+                              <Button fx:id="btnClrCreatortf" layoutX="10.0" layoutY="343.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" text="Button" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="13" />
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="14" GridPane.rowSpan="3">
+                                 <children>
+                                    <Button fx:id="btnUpdate" layoutX="37.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
+                                    <Button fx:id="btnDelete" layoutX="215.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
+                                    <Hyperlink layoutX="45.0" layoutY="52.0" onAction="#hlViewUpdateHistory" text="update history" />
+                                 </children>
+                              </AnchorPane>
+                              <Hyperlink fx:id="hlChangePassword" onAction="#hlChangePasswordOnAction" text="Change password" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+                              <Hyperlink fx:id="hlViewPermission" onAction="#hlViewPermissionOnAction" text="View Permissions" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                              <Label text="Status" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                              <CheckBox fx:id="cbStatus" mnemonicParsing="false" onAction="#cbOnAction" text="Active" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                              <Label fx:id="lblCreator" text="Creator" GridPane.rowIndex="15" />
+                              <TextField fx:id="tfCreatedBy" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

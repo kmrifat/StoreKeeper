@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style/MainStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
+    <children>
+      <BorderPane layoutX="242.0" layoutY="94.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Hyperlink fx:id="hlLogin" onAction="#hlLogin" text="Already Have an Account? Login">
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Hyperlink>
+               </children>
+            </HBox>
+         </bottom>
+         <top>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane maxHeight="296.0" maxWidth="1000.0" minHeight="200.0" minWidth="350.0" prefHeight="296.0" prefWidth="350.0">
+                     <children>
+                        <TextField fx:id="tfUserName" layoutX="44.0" layoutY="69.0" prefHeight="31.0" prefWidth="270.0" promptText="Enter User Name">
+                           <tooltip>
+                              <Tooltip text="User Name will need to Login" />
+                           </tooltip></TextField>
+                        <TextField fx:id="tfFullName" layoutX="44.0" layoutY="115.0" prefHeight="31.0" prefWidth="270.0" promptText="Enter Full Name" />
+                        <PasswordField fx:id="pfUserPassword" layoutX="44.0" layoutY="163.0" prefHeight="31.0" prefWidth="269.0" promptText="Type Password" />
+                        <PasswordField fx:id="pfReUserPassword" layoutX="44.0" layoutY="210.0" onKeyReleased="#pfKeyTyped" prefHeight="31.0" prefWidth="269.0" promptText="Re-Type Password" />
+                        <Button fx:id="btnSignUp" layoutX="123.0" layoutY="261.0" mnemonicParsing="false" onAction="#btnRegistration" text="Signup" />
+                        <Text layoutX="102.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="btnClearUserName" graphicTextGap="0.0" layoutX="279.0" layoutY="72.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../style/btnOnText.css" />
+                        <Button fx:id="btnClearFullName" graphicTextGap="0.0" layoutX="279.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../style/btnOnText.css" />
+                        <Button fx:id="btnClearPass" graphicTextGap="0.0" layoutX="279.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../style/btnOnText.css" />
+                        <Button fx:id="btnClearRePass" graphicTextGap="0.0" layoutX="278.0" layoutY="212.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="35.0" stylesheets="@../style/btnOnText.css" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

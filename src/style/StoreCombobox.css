@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 20, 2015, 6:09:17 AM
+    Author     : rifat
+*/
+
+
+#apCombobox{
+    -fx-background-color: white;
+}
+
+.combo-box{
+    -fx-border-width: 0.0px;
+    -fx-font-size: 12px; 
+    -fx-padding: 0px;
+    /*-fx-font-weight:500;*/
+    -fx-font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+    -fx-font-style: underline;
+}
+.combo-box:hover{
+    -fx-text-fill: white;
+}
+.combo-box:checked{
+
+}
+.combo-box-base:hover{
+    -fx-border-color: green;
+}
+.combo-box-base:focused{
+    /*    -fx-background-color: #EA5444;*/
+    -fx-text-fill: white;
+}
+.combo-box .list-view{
+    -fx-border-width: 0.5px;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-padding: 0px;
+    -fx-font-weight:100;
+    /*-fx-border-radius: 10px 10px 0px 0px;*/
+    /*-fx-background-radius: 10px 10px 0px 0px;*/
+}
+.combo-box .list-view .list-cell:filled {
+    -fx-text-fill: black;
+    -fx-font-size: 10px;
+    -fx-font-weight:100;
+           }

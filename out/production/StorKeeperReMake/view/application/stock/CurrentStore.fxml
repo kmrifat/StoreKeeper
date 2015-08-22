@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="spProductContent" prefHeight="580.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.stock.CurrentStoreController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="494.0" prefWidth="834.0">
+         <children>
+            <BorderPane layoutX="220.0" layoutY="140.0" prefHeight="479.0" prefWidth="639.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <TableView fx:id="tblViewCurrentStore" onMouseClicked="#tblViewCurrentStoreOnClick" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="tblClmProductId" prefWidth="55.0" text="ID" />
+                      <TableColumn fx:id="tblClmProductName" prefWidth="68.0" text="NAME" />
+                        <TableColumn fx:id="tblClmProductquantity" prefWidth="102.0" text="Quantity" />
+                        <TableColumn fx:id="tblClmProductUnit" prefWidth="75.0" text="Unit" />
+                        <TableColumn fx:id="tblClmProductRMA" prefWidth="75.0" text="RMA" />
+                        <TableColumn fx:id="tblClmProductSupplyer" prefWidth="75.0" text="Supplyer" />
+                        <TableColumn fx:id="tblClmProductBrand" prefWidth="75.0" text="Brand" />
+                        <TableColumn fx:id="tblClmProductCatagory" prefWidth="75.0" text="Catagory" />
+                        <TableColumn fx:id="tblClmProductPursesPrice" prefWidth="75.0" text="Purses Price" />
+                        <TableColumn fx:id="tblClmProductSellPrice" prefWidth="75.0" text="Sell Price" />
+                        <TableColumn fx:id="tblClmProductdate" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="tblClmProductAddBy" prefWidth="75.0" text="Add By" />
+                        <TableColumn fx:id="tblClmProductdescription" prefWidth="75.0" text="Description" />
+                    </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="944.0" spacing="20.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="btnAddNew" mnemonicParsing="false" onAction="#btnAddNewOnAction" text="Add New" />
+                        <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
+                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets right="20.0" />
+                     </BorderPane.margin>
+                  </HBox>
+               </bottom>
+               <top>
+                  <BorderPane prefHeight="85.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+                     <top>
+                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <TextField fx:id="tfSearch" onKeyReleased="#tfSearchOnKeyRelese" prefHeight="31.0" prefWidth="608.0" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ComboBox fx:id="cbSoteViewSupplyer" onMouseClicked="#cbSoteViewSupplyerOnClick" prefWidth="150.0" promptText="Supplyer" />
+                              <ComboBox fx:id="cbSoteViewBrands" onMouseClicked="#cbSoteViewBrandOnClick" prefWidth="150.0" promptText="Brands" />
+                              <ComboBox fx:id="cbSoteViewCatagory" onMouseClicked="#cbSoteViewCatagoryOnClick" prefWidth="150.0" promptText="Catagory" />
+                              <ComboBox fx:id="cbSoteViewRMA" onMouseClicked="#cbSoteViewRMAOnClick" prefWidth="150.0" promptText="RMA" />
+                           </children>
+                        </HBox>
+                     </center>
+                  </BorderPane>
+               </top>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets left="30.0" right="30.0" />
+   </padding>
+</StackPane>

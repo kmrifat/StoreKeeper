@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="553.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.about.AboutMeController">
+   <children>
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="517.0" prefWidth="735.0">
+               <children>
+                  <AnchorPane prefHeight="517.0" prefWidth="689.0">
+                     <children>
+                        <Label layoutX="197.0" layoutY="195.0" prefHeight="35.0" prefWidth="297.0" text="K M Rifat ul alom">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="145.0" layoutY="237.0" text="Atish Dipankar University Of Science and Technology">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="156.0" layoutY="259.0" text="Department: CSE, Batch: D-16, Student ID: 121-0320-401" />
+                        <Label layoutX="264.0" layoutY="284.0" text="M@il me :" />
+                        <Label layoutX="184.0" layoutY="307.0" text="Find me on facebook :" />
+                        <Hyperlink layoutX="341.0" layoutY="280.0" text="kmrifat@gmail.com" />
+                        <Hyperlink layoutX="341.0" layoutY="303.0" text="facebook.com/kmrifat" />
+                        <ImageView fx:id="imgMyImg" fitHeight="162.0" fitWidth="153.0" layoutX="265.0" layoutY="23.0" pickOnBounds="true" smooth="false" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

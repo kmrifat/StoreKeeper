@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="acMainSells" prefHeight="531.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.SellController">
+   <children>
+      <BorderPane layoutX="199.0" layoutY="139.0" prefHeight="531.0" prefWidth="689.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="81.0" prefWidth="725.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+               <children>
+                  <GridPane layoutX="203.0" layoutY="26.0" prefHeight="81.0" prefWidth="725.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                        <Label fx:id="lblPathInfo" text="Sell">
+                           <font>
+                              <Font size="32.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <ToggleButton fx:id="tbtnSell" mnemonicParsing="false" onAction="#tbtnSellOnAction" text="Sell" />
+                              <ToggleButton fx:id="tbtnCustomer" mnemonicParsing="false" onAction="#tbtnCustomerOnAction" text="Customer" />
+                              <ToggleButton fx:id="tbtnReports" mnemonicParsing="false" onAction="#tbtnReportsOnAction" text="Reports" visible="false" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <StackPane fx:id="spMainContent" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.SettingsController">
+   <children>
+      <BorderPane fx:id="bpSettings" layoutX="239.0" layoutY="131.0" prefHeight="541.0" prefWidth="733.0" stylesheets="@../../style/Settings.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <GridPane prefHeight="62.0" prefWidth="733.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <AnchorPane prefHeight="96.0" prefWidth="293.0">
+                           <children>
+                              <MenuBar layoutX="81.0" layoutY="16.0">
+                                <menus>
+                                  <Menu mnemonicParsing="false" text="Account">
+                                    <items>
+                                      <MenuItem fx:id="miMyASccount" mnemonicParsing="false" onAction="#miMyASccountOnClick" text="My Account" />
+                                    </items>
+                                  </Menu>
+                                  <Menu mnemonicParsing="false" text="Organize">
+                                    <items>
+                                      <MenuItem fx:id="miOrganize" mnemonicParsing="false" onAction="#miOrganizeOnAction" text="Organize Details" />
+                                    </items>
+                                  </Menu>
+                                  <Menu mnemonicParsing="false" text="Data Backup" visible="false">
+                                    <items>
+                                      <MenuItem fx:id="miBackup" mnemonicParsing="false" onAction="#miBackupOnAction" text="Backup/Restor" />
+                                    </items>
+                                  </Menu>
+                                </menus>
+                              </MenuBar>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="lblCurrentStatus" layoutX="14.0" layoutY="12.0" text="Settings">
+                                 <font>
+                                    <Font size="32.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </top>
+         <center>
+            <StackPane fx:id="spSettingContent" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

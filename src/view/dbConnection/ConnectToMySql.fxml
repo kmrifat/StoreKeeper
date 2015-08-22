@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="424.0" prefWidth="596.0" stylesheets="@../../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.dbConnection.ConnectToMySqlController">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <HBox alignment="CENTER" prefHeight="424.0" prefWidth="596.0">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <GridPane layoutX="60.0" layoutY="-8.0" prefHeight="278.0" prefWidth="440.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="136.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="40.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Host Name :  " />
+                              <Label text="Port Name :  " GridPane.rowIndex="2" />
+                              <Label text="User Name :  " GridPane.rowIndex="4" />
+                              <Label text="Password :  " GridPane.rowIndex="6" />
+                              <TextField fx:id="tfHostName" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+                              <TextField fx:id="tfPortName" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+                              <TextField fx:id="tfUserName" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                              <PasswordField fx:id="pfPassword" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+                              <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+                              <Label text=" *" textFill="#f20707" GridPane.columnIndex="4" />
+                              <Label layoutX="417.0" layoutY="18.0" text=" *" textFill="#f20707" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                              <Label layoutX="417.0" layoutY="142.0" text=" *" textFill="#f20707" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                              <Label alignment="CENTER" contentDisplay="TOP" layoutX="95.0" layoutY="18.0" nodeOrientation="LEFT_TO_RIGHT" text=" *" textFill="#f20707" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </center>
+         <top>
+            <AnchorPane prefHeight="86.0" prefWidth="596.0" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

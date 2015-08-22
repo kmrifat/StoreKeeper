@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="apMyAccountMother" onMouseClicked="#apOnOpenAction" prefHeight="509.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.settings.MyAccountController">
+   <children>
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="150.0" prefHeight="509.0" prefWidth="666.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="509.0" prefWidth="396.0">
+               <children>
+                  <TextField fx:id="tfUserName" editable="false" layoutX="20.0" layoutY="22.0" prefHeight="25.0" prefWidth="210.0" promptText="User Name" />
+                  <TextField fx:id="tfFullName" layoutX="20.0" layoutY="63.0" prefHeight="25.0" prefWidth="210.0" promptText="Full Name" />
+                  <TextField fx:id="tfContractNumber" layoutX="20.0" layoutY="104.0" prefHeight="25.0" prefWidth="210.0" promptText="Contact Number" />
+                  <TextField fx:id="tfEmailAddress" layoutX="21.0" layoutY="147.0" prefHeight="25.0" prefWidth="210.0" promptText="Email Address" />
+                  <TextArea fx:id="taAddress" layoutX="21.0" layoutY="197.0" prefHeight="115.0" prefWidth="355.0" promptText="Address" text="Address&#10;&#10;&#10;" />
+                  <Button fx:id="btnSave" layoutX="310.0" layoutY="361.0" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save.." />
+                  <Hyperlink fx:id="hlChangePassword" layoutX="21.0" layoutY="324.0" onAction="#hlChangePasswordOnClick" text="Change Password" />
+                  <Rectangle fx:id="retImage" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="152.0" layoutX="238.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                  <Button fx:id="attachImage" layoutX="237.0" layoutY="172.0" mnemonicParsing="false" onAction="#attachImageOnAction" prefHeight="25.0" prefWidth="144.0" style="-fx-background-color: ;" text="Attach Image" />
+               </children></AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

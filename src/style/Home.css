@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 21, 2015, 10:41:30 AM
+    Author     : rifat
+*/
+.titled-pane {
+    -fx-text-fill: rgb(0,100,157);
+}
+.titled-pane:focused {
+    -fx-color: -fx-base;
+    -fx-text-fill: white;
+}
+.titled-pane > .title {
+    -fx-text-fill: rgb(0,100,157);
+    -fx-font-weight: bold;
+}
+titled-pane > .title  > .label{
+    -fx-text-fill: rgb(0,100,157);
+    -fx-font-weight: bold;
+}
+.titled-pane:focused > .title {
+    -fx-color: rgb(0,100,157); 
+    -fx-text-fill: white;
+}
+.titled-pane > .title:hover {
+    -fx-color: lightgrey;
+}
+.titled-pane > * > * > AnchorPane {
+    -fx-padding: 0px ;
+}
+.titled-pane .content AnchorPane {
+    -fx-padding: 0px;
+}

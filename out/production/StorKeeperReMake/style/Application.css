@@ -1,0 +1,140 @@
+
+/* 
+    Created on : Jun 13, 2015, 3:29:41 PM
+    Author     : rifat
+*/
+.button{
+    -fx-border-width: 0px 0px 0px 5px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    /*    -fx-border-color: white;*/
+    -fx-text-fill: #4E4F52;
+    /*    -fx-border-radius: 50px;*/
+    /*    -fx-background-radius: 50px;*/
+    -fx-background-color: #282E34;
+    /*    -fx-font-size: 15px; */
+    /*    -fx-padding: 5px 25px;*/
+    -fx-font-weight:700;
+    -fx-font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+
+.button:focused{
+    -fx-border-width: 0px 0px 0px 0px;
+    /*    -fx-text-fill: #FFFFFF;*/
+
+}
+.button:pressed{
+    -fx-text-fill: white;
+}
+.button:hover{
+    -fx-background-color: #929292;
+    -fx-text-fill: white;
+}
+
+MenuButton{
+
+}
+
+.scroll-pane {
+
+    /*    -fx-background-insets: 0;*/
+    -fx-padding: 0;
+    -fx-background:#282E34;
+}
+
+.list-view .scroll-bar:horizontal .track,
+.list-view .scroll-bar:vertical .track{
+
+    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}
+
+/*The main scrollbar   which we drag every time (movable)*/ 
+.list-view .scroll-bar:horizontal .thumb,
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+.list-view .scroll-bar:horizontal .increment-button ,
+.list-view .mylistview .scroll-bar:horizontal .decrement-button {
+    
+    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+    /*    -fx-background-color:transparent;*/
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+
+}
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:horizontal .increment-button,
+.list-view .scroll-bar:horizontal .decrement-button {
+    visibility: hidden;
+    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+    -fx-padding:0;
+}
+.list-view .scroll-bar:horizontal .increment-button ,
+.list-view .mylistview .scroll-bar:horizontal .decrement-button {
+    
+    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+    /*    -fx-background-color:transparent;*/
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+
+}
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow,
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    
+/*    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+    -fx-padding:0;*/
+}
+.list-view .scroll-bar:vertical .increment-button ,
+.list-view .mylistview .scroll-bar:vertical .decrement-button {
+    
+/*    -fx-border-color:derive(#D7D7D7,100%);
+    -fx-background-color: derive(#D7D7D7,100%);
+        -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;*/
+
+}
+
+
+#sideMenuToogleBtn{
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+#sideMenuToogleBtn:hover{
+    -fx-background-color: none;
+}
+#btnLogOut{
+
+}
+#acHead{
+    -fx-background-color:#282E34;
+}
+#acDashBord{
+    -fx-background-color:#282E34;
+}
+#mbtnUsrInfoBox{
+    -fx-background-color:#282E34;
+    -fx-text-fill: white;
+}
+#mbtnUsrInfoBox:hover, #mbtnUsrInfoBox:focused{
+    -fx-background-color:#494949;
+}
+#circleImgUsr{
+    -fx-padding: 0;
+}
+#lblUsrName{
+    -fx-text-fill: white;
+}

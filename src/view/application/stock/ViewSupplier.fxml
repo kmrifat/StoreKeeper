@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="acContent" prefHeight="607.0" prefWidth="880.0" stylesheets="@../../../style/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.application.stock.ViewSupplyerController">
+   <children>
+      <BorderPane layoutX="24.0" prefHeight="563.0" prefWidth="752.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="55.0" prefWidth="752.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" layoutX="78.0" layoutY="-22.0" prefHeight="78.0" prefWidth="752.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <TextField fx:id="tfSearch" onKeyReleased="#tfSearchOnType" prefHeight="31.0" prefWidth="570.0" promptText="Search Supplier" />
+                        <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#btnRefreshOnAction" prefHeight="31.0" prefWidth="30.0">
+                           <tooltip>
+                              <Tooltip text="refresh" />
+                           </tooltip></Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <TableView fx:id="tblSupplyer" editable="true" onKeyReleased="#tblSupplyerOnKeyPress" onMouseClicked="#tblSupplyerOnClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: none; -fx-border-color: none;" BorderPane.alignment="CENTER">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn fx:id="clmSUpplyerId" prefWidth="59.0" text="ID" visible="false" />
+                  <TableColumn fx:id="clmSupplyerName" prefWidth="103.0" text="Suppliers" />
+                  <TableColumn fx:id="clmSupplyerPhoneNumber" prefWidth="145.0" text="Contact Number" />
+                  <TableColumn fx:id="clmSupplyerAddress" prefWidth="126.0" sortable="false" text="Address" />
+                  <TableColumn fx:id="clmSupplyerJoining" prefWidth="202.0" text="Supplier Since" />
+                  <TableColumn fx:id="clmSupplyerDescription" prefWidth="175.0" text="Supplier Description" />
+               </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                        <MenuItem fx:id="mbSearch" mnemonicParsing="false" onAction="#mbSearch" text="Search" />
+                      <MenuItem mnemonicParsing="false" onAction="#mbView" text="View" />
+                        <MenuItem mnemonicParsing="false" onAction="#mbViewHistory" text="View Update History" />
+                        <MenuItem mnemonicParsing="false" onAction="#mbAddNew" text="Add New Item" />
+                        <MenuItem mnemonicParsing="false" onAction="#mbDeleteItem" text="Delete Selected Item" />
+                        <MenuItem mnemonicParsing="false" onAction="#mbEdit" text="Edit" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </TableView>
+         </center>
+         <bottom>
+            <AnchorPane prefHeight="75.0" prefWidth="820.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" layoutX="157.0" prefHeight="100.0" prefWidth="820.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="btnAdditems" mnemonicParsing="false" onAction="#btnAdditemsOnAction" text="Add New" />
+                        <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="117.0" text="Update" />
+                        <Button mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="33.0" prefWidth="120.0" text="Delete" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </children>
+   <padding>
+      <Insets left="30.0" right="30.0" />
+   </padding>
+</AnchorPane>
