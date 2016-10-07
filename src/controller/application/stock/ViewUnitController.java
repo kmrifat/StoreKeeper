@@ -36,9 +36,12 @@ import javafx.stage.StageStyle;
 import List.ListUnit;
 import media.userNameMedia;
 import DAL.Unit;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+//import org.controlsfx.dialog.Dialog; // update library 20161007 deprecated Dialog with Jdk8U72
+//import org.controlsfx.dialog.Dialogs; // update library 20161007 deprecated Dialog with Jdk8U72
 
 /**
  * FXML Controller class
@@ -167,13 +170,20 @@ public class ViewUnitController implements Initializable {
         ListUnit selectedUnit = tblViewUnit.getSelectionModel().getSelectedItem();
         String unitName = selectedUnit.getUnitName();
         unitId = selectedUnit.getUnitId();
-            Action sure = Dialogs.create()
+            /*Action sure = Dialogs.create()
                     .masthead("Are you sure")
                     .message("Are you sure to delete '" + unitName + "' ??")
                     .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
                     .actions(Dialog.ACTION_YES, Dialog.ACTION_NO)
-                    .showConfirm();
-            if(sure == Dialog.ACTION_YES){
+                    .showConfirm();fixed by Karis
+                // update library 20161007 deprecated Dialog with Jdk8U72
+                
+                 */
+                Alert warning = new Alert(Alert.AlertType.CONFIRMATION);
+                warning.setTitle("Confirmation");
+                warning.setContentText("Are you sure to delete '" + unitName + "' ?"); 
+                Optional<ButtonType> sure = warning.showAndWait();
+            if(sure.get() == ButtonType.OK){
                 unit.id = unitId;
                 unitBLL.delete(unit);
                 tfSearchOnKeyResele(event);

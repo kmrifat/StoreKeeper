@@ -18,10 +18,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
 
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
+//import org.controlsfx.dialog.Dialog; // update library 20161007 deprecated Dialog with Jdk8U72
+//import org.controlsfx.dialog.Dialogs; // update library 20161007 deprecated Dialog with Jdk8U72
 /**
  * @author rifat
  */
@@ -49,11 +50,20 @@ public class BrandsGetway {
             pst.executeUpdate();
             con.close();
             pst.close();
-            Dialogs.create().title("Sucess")
+            /* Dialogs.create().title("Sucess")
                     .masthead("Sucess..!!")
                     .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
                     .message("Brand" + "  '" + brands.brandName + "' " + "Added Sucessfuly")
                     .showInformation();
+            fixed by Karis
+                // update library 20161007 deprecated Dialog with Jdk8U72
+                
+             */
+            Alert warning = new Alert(Alert.AlertType.INFORMATION);
+            warning.setTitle("Sucess");
+            warning.setContentText("Brand" + "  '" + brands.brandName + "' " + "Added Sucessfuly");
+            warning.show();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,27 +177,47 @@ public class BrandsGetway {
             pst.executeUpdate();
             con.close();
             pst.close();
-            Dialogs.create().title("Sucess")
+            /*Dialogs.create().title("Sucess")
                     .masthead("Updated !!")
                     .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
                     .message("Supplyer" + "  '" + brands.brandName + "' " + "Updated Sucessfuly")
                     .showInformation();
+            fixed by Karis
+                // update library 20161007 deprecated Dialog with Jdk8U72
+                
+             */
+            Alert warning = new Alert(Alert.AlertType.INFORMATION);
+            warning.setTitle("Sucess");
+            warning.setContentText("Supplyer" + "  '" + brands.brandName + "' " + "Updated Sucessfuly");
+            warning.show();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
-    public boolean isNotUsed(Brands brands){
+
+    public boolean isNotUsed(Brands brands) {
         con = dbCon.geConnection();
         boolean inNotUse = false;
         try {
             pst = con.prepareStatement("select * from Catagory where BrandId=?");
             pst.setString(1, brands.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-                Dialogs.create().title("").masthead("Error").message("This brand already used in '"+ rs.getString(2) +"' catagory \n delete catagory first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+            while (rs.next()) {
+                /* Dialogs.create().title("").masthead("Error")
+                        .message("This brand already used in '" + rs.getString(2) + "' catagory \n delete catagory first")
+                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+                fixed by Karis
+                // update library 20161007 deprecated Dialog with Jdk8U72
+                
+                 */
+                Alert warning = new Alert(Alert.AlertType.ERROR);
+                warning.setTitle("Alert");
+                warning.setContentText("This brand already used in '"
+                        + rs.getString(2) + "' catagory \n delete catagory first");
+                warning.show();
                 return inNotUse;
-            }rs.close();
+            }
+            rs.close();
             pst.close();
             con.close();
             inNotUse = true;
