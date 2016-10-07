@@ -5,8 +5,8 @@ import DAL.Supplyer;
 import Getway.BrandsGetway;
 import dataBase.DBConnection;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+//import org.controlsfx.dialog.Dialog; // update library 20161007 deprecated Dialog with Jdk8U72
+//import org.controlsfx.dialog.Dialogs; // update library 20161007 deprecated Dialog with Jdk8U72
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 
 /**
  * Created by rifat on 8/15/15.
@@ -84,11 +85,18 @@ public class BrandBLL {
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
+                /* fixed by Karis
+                // update library 20161007 deprecated Dialog with Jdk8U72
                 Dialogs.create().title("Sucess")
                         .masthead("Warning")
                         .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
                         .message("Brand" + "  '" + brands.brandName + "' " + "Already exist")
                         .showWarning();
+                */
+                Alert warning = new Alert(Alert.AlertType.WARNING);
+                warning.setTitle("Warning");
+                warning.setContentText("Brand" + "  '" + brands.brandName + "' " + "Already exist");
+                warning.show();
                 return uniqSupplyer;
             }
             uniqSupplyer = true;
