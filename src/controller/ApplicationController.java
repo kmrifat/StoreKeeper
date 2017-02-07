@@ -13,6 +13,7 @@ import controller.application.SettingsController;
 import controller.application.StockController;
 import controller.application.home.HomeController;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -125,6 +126,9 @@ public class ApplicationController implements Initializable {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+     DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     Users users = new Users();
     UsersGetway usersGetway = new UsersGetway();
@@ -367,7 +371,7 @@ public class ApplicationController implements Initializable {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("select * from UserPermission where UserId=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where UserId=?");
             pst.setString(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {

@@ -7,6 +7,7 @@ package controller.application.home;
 
 import Getway.CurrentProductGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,6 +50,9 @@ public class HomeController implements Initializable {
     private Text txtOrgAddress;
     @FXML
     private Text txtorgPhoneNumber;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     /**
      * Initializes the controller class.
@@ -62,7 +66,7 @@ public class HomeController implements Initializable {
     public void valueCount(){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select sum(PursesPrice) from Products");
+            pst = con.prepareStatement("select sum(PursesPrice) from "+db+".Products");
             rs = pst.executeQuery();
             while (rs.next()) {
                 lblStockValue.setText(rs.getString(1));
@@ -77,32 +81,32 @@ public class HomeController implements Initializable {
     public void totalCount(){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select count(*) from Sell");
+            pst = con.prepareStatement("select count(*) from "+db+".Sell");
             rs = pst.executeQuery();
             while (rs.next()) {
                 lblTotalSell.setText(rs.getString(1));
             }
-            pst = con.prepareStatement("select count(*) from Supplyer");
+            pst = con.prepareStatement("select count(*) from "+db+".Supplyer");
             rs = pst.executeQuery();
             while(rs.next()){
                 lblTotalSupplyer.setText(rs.getString(1));
             }
-            pst = con.prepareStatement("select count(*) from Products");
+            pst = con.prepareStatement("select count(*) from "+db+".Products");
             rs = pst.executeQuery();
             while(rs.next()){
                 lblTotalItem.setText(rs.getString(1));
             }
-            pst = con.prepareStatement("select sum(TotalPrice) from Sell");
+            pst = con.prepareStatement("select sum(TotalPrice) from "+db+".Sell");
             rs = pst.executeQuery();
             while(rs.next()){
                 lblSellValue.setText(rs.getString(1));
             }
-            pst = con.prepareStatement("select count(*) from User");
+            pst = con.prepareStatement("select count(*) from "+db+".User");
             rs = pst.executeQuery();
             while(rs.next()){
                 lblTotalEmployee.setText(rs.getString(1));
             }
-            pst =con.prepareStatement("select * from Organize where Id=1");
+            pst =con.prepareStatement("select * from "+db+".Organize where Id=1");
             rs = pst.executeQuery();
             while(rs.next()){
                 lblOrgName.setText(rs.getString(2));

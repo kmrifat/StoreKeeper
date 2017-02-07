@@ -6,6 +6,7 @@
 package Getway;
 
 import DAL.MysqlConnector;
+import dataBase.DBProperties;
 import dataBase.SQLightConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +25,9 @@ public class MySqlConnectorGetway {
     Connection con = qLightConnection.sqliteConnection();
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(MysqlConnector connector) {
         try {

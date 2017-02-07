@@ -9,6 +9,7 @@ import DAL.Brands;
 import DAL.Supplyer;
 import List.ListBrands;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
 
 import java.sql.Connection;
@@ -18,9 +19,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * @author rifat
@@ -33,13 +33,16 @@ public class BrandsGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Brands brands) {
         con = dbCon.geConnection();
         brands.supplyrId = sql.getIdNo(brands.supplyerName, brands.supplyrId, "Supplyer", "SupplyerName");
 
         try {
-            pst = con.prepareStatement("insert into Brands values(?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Brands values(?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, brands.brandName);
             pst.setString(3, brands.brandComment);
@@ -49,11 +52,13 @@ public class BrandsGetway {
             pst.executeUpdate();
             con.close();
             pst.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Sucess..!!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Brand" + "  '" + brands.brandName + "' " + "Added Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Brand" + "  '" + brands.brandName + "' " + "Added successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,7 +69,7 @@ public class BrandsGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareCall("select * from Brands");
+            pst = con.prepareCall("select * from "+db+".Brands");
             rs = pst.executeQuery();
             while (rs.next()) {
                 brands.id = rs.getString(1);
@@ -91,7 +96,7 @@ public class BrandsGetway {
 
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Brands where id=?");
+            pst = con.prepareCall("select * from "+db+".Brands where id=?");
             pst.setString(1, brands.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -118,7 +123,7 @@ public class BrandsGetway {
 
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Brands where BrandName like ? ORDER BY BrandName");
+            pst = con.prepareCall("select * from "+db+".Brands where BrandName like ? ORDER BY BrandName");
             System.out.println("Brand name in Brand Object");
             pst.setString(1, "%" + brands.brandName + "%");
 
@@ -147,7 +152,7 @@ public class BrandsGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("delete from Brands where Id=?");
+            pst = con.prepareStatement("delete from "+db+".Brands where Id=?");
             pst.setString(1, brands.id);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -159,7 +164,7 @@ public class BrandsGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("update Brands set BrandName=? , Description=?,SupplyerId=? where Id=?");
+            pst = con.prepareStatement("update "+db+".Brands set BrandName=? , Description=?,SupplyerId=? where Id=?");
             pst.setString(1, brands.brandName);
             pst.setString(2, brands.brandComment);
             pst.setString(3, brands.supplyrId);
@@ -167,11 +172,13 @@ public class BrandsGetway {
             pst.executeUpdate();
             con.close();
             pst.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Supplyer" + "  '" + brands.brandName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Update : update sucess ");
+            alert.setContentText("Update" + "  '" + brands.brandName + "' " + "Added successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -181,11 +188,16 @@ public class BrandsGetway {
         con = dbCon.geConnection();
         boolean inNotUse = false;
         try {
-            pst = con.prepareStatement("select * from Catagory where BrandId=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where BrandId=?");
             pst.setString(1, brands.id);
             rs = pst.executeQuery();
             while(rs.next()){
-                Dialogs.create().title("").masthead("Error").message("This brand already used in '"+ rs.getString(2) +"' catagory \n delete catagory first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("ERROE : Already exist ");
+            alert.setContentText("Brand" + "  '" + brands.brandName + "' " + "Already exist");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
                 return inNotUse;
             }rs.close();
             pst.close();

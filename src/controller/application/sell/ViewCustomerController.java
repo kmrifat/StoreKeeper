@@ -34,9 +34,10 @@ import javafx.stage.StageStyle;
 import media.userNameMedia;
 import DAL.Customer;
 import List.ListCustomer;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import controller.RegistrationController;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -141,10 +142,13 @@ public class ViewCustomerController implements Initializable {
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
         if (tblCustomer.getSelectionModel().getSelectedItem() != null) {
-            Action deleteAction = Dialogs.create()
-                    .title("").masthead("CONFIRM")
-                    .message("Are You Sure to Delete this item??").styleClass(Dialog.STYLE_CLASS_UNDECORATED).actions(Dialog.ACTION_YES, Dialog.ACTION_NO).showConfirm();
-            if (deleteAction == Dialog.ACTION_YES) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("CONFIRM");
+            alert.setContentText("Are You Sure to Delete this item??");
+            alert.initStyle(StageStyle.UNDECORATED);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 ListCustomer listCustomer = tblCustomer.getSelectionModel().getSelectedItem();
                 String item = listCustomer.getId();
                 customer.id = item;
@@ -152,6 +156,7 @@ public class ViewCustomerController implements Initializable {
                 tblCustomer.getItems().clear();
                 viewDetails();
             }
+            
         } else {
             System.out.println("EMPTY SELECTION");
         }

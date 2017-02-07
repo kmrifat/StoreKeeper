@@ -6,7 +6,6 @@
 package controller.application.employe;
 
 import Getway.UsersGetway;
-import controller.application.settings.MyAccountController;
 import dataBase.DBConnection;
 
 import java.net.URL;
@@ -54,9 +53,9 @@ import javax.imageio.ImageIO;
 import List.ListEmployee;
 
 import DAL.Users;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import controller.RegistrationController;
+import dataBase.DBProperties;
+import java.util.Optional;
 
 /**
  * FXML Controller class
@@ -71,6 +70,10 @@ public class ViewEmployeController implements Initializable {
     UsersGetway usersGetway = new UsersGetway();
     SQL sql = new SQL();
     DBConnection dbCon = new DBConnection();
+    
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     private File file;
     private BufferedImage bufferedImage;
@@ -142,9 +145,7 @@ public class ViewEmployeController implements Initializable {
     @FXML
     private Label lblCreator;
 
-
     Image usrImg = new Image("/image/rifat.jpg");
-
 
     public userNameMedia getNameMedia() {
         return nameMedia;
@@ -237,31 +238,33 @@ public class ViewEmployeController implements Initializable {
 
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
-        Action delete = Dialogs.create().title("Sucess")
-                .masthead("Confirm to delete!!")
-                .actions(Dialog.ACTION_YES, Dialog.ACTION_NO)
-                .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                .message("Are you sure to delete " + "  '" + tfUserName.getText() + "' ??")
-                .showConfirm();
-        if(delete == Dialog.ACTION_YES){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Employee");
+        alert.setHeaderText("Are You sure ?");
+        alert.setContentText("Are you sure to remove this employee \n Click OK to confirm");
+        alert.initStyle(StageStyle.UNDECORATED);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             usersGetway.selectedView(users);
             usersGetway.delete(users);
         }
+        
+        tblEmoyeeList.getItems().clear();
+        showDetails();
 
     }
 
     @FXML
     private void cbOnAction(ActionEvent event) {
-            if (cbStatus.isSelected()) {
-                cbStatus.setText("Active");
-            } else {
-                cbStatus.setText("Deactive");
-            }
+        if (cbStatus.isSelected()) {
+            cbStatus.setText("Active");
+        } else {
+            cbStatus.setText("Deactive");
+        }
     }
 
     @FXML
     private void hlChangePasswordOnAction(ActionEvent event) {
-
 
     }
 
@@ -277,16 +280,18 @@ public class ViewEmployeController implements Initializable {
         loader.setLocation(getClass().getResource("/view/application/employe/EmployeePermission.fxml"));
         loader.load();
         Parent root = loader.getRoot();
-        Scene scene = new Scene(root); scene.setFill(new Color(0, 0, 0, 0));
+        Scene scene = new Scene(root);
+        scene.setFill(new Color(0, 0, 0, 0));
         EmployeePermissionController PermissionController = loader.getController();
         nameMedia.setId(id);
-        PermissionController.setMedia(nameMedia); PermissionController.checqPermission();
+        PermissionController.setMedia(nameMedia);
+        PermissionController.checqPermission();
         Stage nStage = new Stage();
         nStage.setScene(scene);
-        nStage.initModality(Modality.APPLICATION_MODAL); nStage.initStyle(StageStyle.TRANSPARENT);
+        nStage.initModality(Modality.APPLICATION_MODAL);
+        nStage.initStyle(StageStyle.TRANSPARENT);
         nStage.show();
     }
-
 
     @FXML
     private void hlViewUpdateHistory(ActionEvent event) throws IOException {
@@ -316,14 +321,22 @@ public class ViewEmployeController implements Initializable {
             sql.creatorNameFindar(creatorId, lblCreator);
             tfCreatedBy.setText(lblCreator.getText());
             if (users.status.matches("1")) {
-                cbStatus.setSelected(true); cbStatus.setText("Active");
+                cbStatus.setSelected(true);
+                cbStatus.setText("Active");
             } else if (users.status.matches("0")) {
-                cbStatus.setSelected(false); cbStatus.setText("Deactive");
+                cbStatus.setSelected(false);
+                cbStatus.setText("Deactive");
             }
-            if(users.id.matches("1")){
-                btnUpdate.setVisible(false); btnDelete.setVisible(false); hlChangePassword.setVisible(false); hlViewPermission.setVisible(false);
-            }else{
-                btnUpdate.setVisible(true); btnDelete.setVisible(true); hlChangePassword.setVisible(true); hlViewPermission.setVisible(true);
+            if (users.id.matches("1")) {
+                btnUpdate.setVisible(false);
+                btnDelete.setVisible(false);
+                hlChangePassword.setVisible(false);
+                hlViewPermission.setVisible(false);
+            } else {
+                btnUpdate.setVisible(true);
+                btnDelete.setVisible(true);
+                hlChangePassword.setVisible(true);
+                hlViewPermission.setVisible(true);
             }
 
         }
@@ -335,12 +348,11 @@ public class ViewEmployeController implements Initializable {
         clmEmployeName.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
         usersGetway.view(users);
 
-
     }
 
     public void checqPermission() {
         try {
-            pst = con.prepareStatement("select * from UserPermission where UserId=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where UserId=?");
             pst.setString(1, userId);
             rs = pst.executeQuery();
             while (rs.next()) {

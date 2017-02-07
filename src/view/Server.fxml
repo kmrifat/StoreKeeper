@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="457.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dataBase.ServerController">
+   <children>
+      <BorderPane layoutX="200.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Server Configure" textFill="#463939">
+                     <font>
+                        <Font name="System Bold" size="29.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane prefHeight="300.0" prefWidth="332.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="135.0" />
+                      <ColumnConstraints halignment="LEFT" maxWidth="227.0" minWidth="10.0" prefWidth="197.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="MySQL host :" GridPane.rowIndex="1" />
+                        <Label text="MySQL Port:" GridPane.rowIndex="2" />
+                        <Label text="MySQL UserName :" GridPane.rowIndex="4" />
+                        <Label text="MySQL Password :" GridPane.rowIndex="5" />
+                        <TextField fx:id="tfHost" text="localhost" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="thPort" text="3306" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="lablServerStatus" text="Server off" GridPane.columnIndex="1" />
+                        <Label text="MySQL Database :" GridPane.rowIndex="3" />
+                        <TextField fx:id="tfDBName" text="storekeeper" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="tfUserName" text="root" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <PasswordField fx:id="pfPassword" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                          <buttons>
+                            <Button fx:id="btnConnect" mnemonicParsing="false" onAction="#btnConnectOnAction" text="Connect" />
+                              <Button fx:id="btnReset" mnemonicParsing="false" onAction="#btnResetOnAction" text="Reset" />
+                          </buttons>
+                        </ButtonBar>
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

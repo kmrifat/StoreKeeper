@@ -36,9 +36,9 @@ import javafx.stage.StageStyle;
 import List.ListUnit;
 import media.userNameMedia;
 import DAL.Unit;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  * FXML Controller class
@@ -50,7 +50,7 @@ public class ViewUnitController implements Initializable {
     Unit unit = new Unit();
     UnitGetway unitGetway = new UnitGetway();
     UnitBLL unitBLL = new UnitBLL();
-    
+
     private String usrId;
     private String creatorId;
     private String unitId;
@@ -90,8 +90,6 @@ public class ViewUnitController implements Initializable {
     @FXML
     private Button btnRefresh;
 
-    
-
     public userNameMedia getMedia() {
         return media;
     }
@@ -100,7 +98,7 @@ public class ViewUnitController implements Initializable {
         usrId = media.getId();
         this.media = media;
     }
-    
+
     DBConnection dbCon = new DBConnection();
     Connection con;
     PreparedStatement pst;
@@ -108,19 +106,20 @@ public class ViewUnitController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+
+    }
 
     @FXML
     private void tblViewUnitOnClick(MouseEvent event) {
-        if(event.getClickCount() == 2){
+        if (event.getClickCount() == 2) {
             viewDetails();
-        }else{
+        } else {
             System.out.println(event.getClickCount());
         }
     }
@@ -154,34 +153,36 @@ public class ViewUnitController implements Initializable {
 
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
-        if(tblViewUnit.getSelectionModel().getSelectedItem() != null){
+        if (tblViewUnit.getSelectionModel().getSelectedItem() != null) {
             viewDetails();
-        }else{
+        } else {
             System.out.println("EMPTY SELECTION");
         }
     }
 
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
-        if(!tblViewUnit.getSelectionModel().isEmpty()){
-        ListUnit selectedUnit = tblViewUnit.getSelectionModel().getSelectedItem();
-        String unitName = selectedUnit.getUnitName();
-        unitId = selectedUnit.getUnitId();
-            Action sure = Dialogs.create()
-                    .masthead("Are you sure")
-                    .message("Are you sure to delete '" + unitName + "' ??")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .actions(Dialog.ACTION_YES, Dialog.ACTION_NO)
-                    .showConfirm();
-            if(sure == Dialog.ACTION_YES){
+        if (!tblViewUnit.getSelectionModel().isEmpty()) {
+            ListUnit selectedUnit = tblViewUnit.getSelectionModel().getSelectedItem();
+            String unitName = selectedUnit.getUnitName();
+            unitId = selectedUnit.getUnitId();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Login Now");
+            alert.setHeaderText("Confirm");
+            alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+            alert.initStyle(StageStyle.UNDECORATED);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 unit.id = unitId;
                 unitBLL.delete(unit);
                 tfSearchOnKeyResele(event);
+            } else {
+
             }
-        }else {
+            
+        } else {
             System.out.println("NULL SELECTED");
         }
-
 
     }
 
@@ -221,7 +222,7 @@ public class ViewUnitController implements Initializable {
     }
 
     private void viewDetails() {
-        if(!tblViewUnit.getSelectionModel().isEmpty()){
+        if (!tblViewUnit.getSelectionModel().isEmpty()) {
             ListUnit selectedUnit = tblViewUnit.getSelectionModel().getSelectedItem();
             System.out.println("ID is");
             System.out.println(selectedUnit.getUnitId());
@@ -253,14 +254,11 @@ public class ViewUnitController implements Initializable {
                     e.printStackTrace();
                 }
             }
-        }else {
+        } else {
             System.out.println("empty Selection");
         }
 
-
-
     }
-
 
     @FXML
     public void tfSearchOnKeyResele(Event event) {

@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -79,7 +81,9 @@ public class ViewSellController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        tblSellView.setOnMouseClicked((MouseEvent event) -> {
+            System.out.println("Clicked");
+        });
     }
 
     @FXML

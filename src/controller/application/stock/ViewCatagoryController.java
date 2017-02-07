@@ -35,8 +35,7 @@ import media.userNameMedia;
 import DAL.Catagory;
 import Getway.CatagoryGetway;
 import List.ListCatagory;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
+import java.util.Optional;
 
 /**
  * FXML Controller class
@@ -44,8 +43,6 @@ import org.controlsfx.dialog.Dialogs;
  * @author rifat
  */
 public class ViewCatagoryController implements Initializable {
-
-
 
     private String usrId;
     private String catagoryId;
@@ -98,7 +95,6 @@ public class ViewCatagoryController implements Initializable {
     @FXML
     private Button btnRefresh;
 
-
     public userNameMedia getMedia() {
         return media;
     }
@@ -118,6 +114,7 @@ public class ViewCatagoryController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -126,12 +123,11 @@ public class ViewCatagoryController implements Initializable {
 
     }
 
-
     @FXML
     private void tblCatagoryOnClick(MouseEvent event) {
-        if(event.getClickCount() ==2){
+        if (event.getClickCount() == 2) {
             viewDetails();
-        }else {
+        } else {
             System.out.println("CLICKED");
         }
     }
@@ -164,9 +160,9 @@ public class ViewCatagoryController implements Initializable {
 
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
-        if(tblCatagory.getSelectionModel().getSelectedItem() != null){
+        if (tblCatagory.getSelectionModel().getSelectedItem() != null) {
             viewDetails();
-        }else {
+        } else {
             System.out.println("EMPTY SELECTION");
         }
     }
@@ -174,26 +170,23 @@ public class ViewCatagoryController implements Initializable {
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
         ListCatagory selectedCatagory = tblCatagory.getSelectionModel().getSelectedItem();
-        Action delete = Dialogs.create().title("Confarm")
-                .masthead("Confirm to delete!!")
-                .actions(org.controlsfx.dialog.Dialog.ACTION_YES, org.controlsfx.dialog.Dialog.ACTION_NO)
-                .styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED)
-                .message("Are you sure to delete " + "  '" + selectedCatagory.getCatagoryName() + "' ??")
-                .showConfirm();
-
-        if (delete == org.controlsfx.dialog.Dialog.ACTION_YES) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Login Now");
+        alert.setHeaderText("Confirm");
+        alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+        alert.initStyle(StageStyle.UNDECORATED);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             catagory.id = selectedCatagory.getId();
-            System.out.println(catagory.id+ "On hear");
+            System.out.println(catagory.id + "On hear");
             catagoryBLL.delete(catagory);
-//            acContent.setOpacity(1);
             tblCatagory.getItems().clear();
             showDetails();
-        }else{
-//            acContent.setOpacity(1);
         }
+        
     }
 
-    public void showDetails(){
+    public void showDetails() {
         tblCatagory.setItems(catagory.catagoryDetails);
         tablClmBox.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmCatagoryId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -226,7 +219,7 @@ public class ViewCatagoryController implements Initializable {
     }
 
     private void viewDetails() {
-        if(!tblCatagory.getSelectionModel().isEmpty()){
+        if (!tblCatagory.getSelectionModel().isEmpty()) {
             ListCatagory selectedCatagory = tblCatagory.getSelectionModel().getSelectedItem();
             System.out.println("ID is");
             System.out.println(selectedCatagory.getCreatorId());
@@ -258,11 +251,9 @@ public class ViewCatagoryController implements Initializable {
                     e.printStackTrace();
                 }
             }
-        }else {
+        } else {
             System.out.println("empty Selection");
         }
-
-
 
     }
 

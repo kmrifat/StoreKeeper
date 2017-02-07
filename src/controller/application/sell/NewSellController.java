@@ -39,7 +39,6 @@ import List.ListPreSell;
 import custom.CustomTf;
 import custom.RandomIdGenarator;
 import java.time.LocalDateTime;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  *
@@ -239,7 +238,7 @@ public class NewSellController implements Initializable {
 
     @FXML
     private void btnSellOnAction(ActionEvent event) {
-        if(tblSellPreList.getItems().size() != 0){
+        if(!tblSellPreList.getItems().isEmpty()){
             System.out.println(lblSellId.getText());
             int indexs = tblSellPreList.getItems().size();
             for (int i = 0; i < indexs; i++) {
@@ -258,7 +257,13 @@ public class NewSellController implements Initializable {
                 scbll.sell(sellCart);
                 System.out.println("Old Quentity:" + tblSellPreList.getSelectionModel().getSelectedItem().getOldQuantity());
             }
-           Dialogs.create().title(null).masthead("Soled").message("Soled Sucessfuly").styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Soled");
+            alert.setContentText("Soled Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
            tblSellPreList.getItems().clear();
            lblTotal.setText(null);
 
@@ -387,7 +392,13 @@ public class NewSellController implements Initializable {
         boolean isNotNull = false;
         
         if (mbtnCustomer.getText().matches("Select Customer")||tfSellPrice.getText() == null || tfQuantity.getText().trim().matches("")) {
-            Dialogs.create().title("").masthead("ERROR").message("Please fill requere field").styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED).showError();
+//            Dialogs.create().title("").masthead("ERROR").message("Please fill requere field").styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED).showError();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR");
+            alert.setContentText("Please fill all requre field");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
             return isNotNull;
         } else {
             isNotNull = true;

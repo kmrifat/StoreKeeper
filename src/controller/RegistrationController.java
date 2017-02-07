@@ -6,7 +6,6 @@
 package controller;
 
 import Getway.UsersGetway;
-import dataBase.DBConnection;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,12 +17,9 @@ import javafx.scene.control.TextField;
 import custom.*;
 import dataBase.SQL;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
@@ -34,9 +30,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import DAL.Users;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import dataBase.DBProperties;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -68,6 +66,9 @@ public class RegistrationController implements Initializable {
 
     Users users = new Users();
     UsersGetway usersGetway = new UsersGetway();
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     private Stage stage;
 
@@ -119,15 +120,13 @@ public class RegistrationController implements Initializable {
             users.password = pfUserPassword.getText();
             usersGetway.save(users);
             sql.basicPermission(tfUserName.getText());
-            Action ad = Dialogs.create()
-                    .title("Sucess ...")
-                    .actions(Dialog.ACTION_OK)
-                    .message("Registration Sucess.."
-                            + "You can login now by your User Name and Password \n \n"
-                            + "Click Ok to Login")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showConfirm();
-            if (ad == Dialog.ACTION_OK) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Now");
+            alert.setHeaderText("Login now");
+            alert.setContentText("You admin account has been create sucessfully \n to login now click ok");
+            alert.initStyle(StageStyle.UNDECORATED);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 try {
                     hlLogin(event);
                 } catch (IOException ex) {
@@ -135,12 +134,7 @@ public class RegistrationController implements Initializable {
                 }
             }
         } else {
-            Action warning = Dialogs.create()
-                    .title("Warning")
-                    .actions(Dialog.ACTION_CLOSE)
-                    .message("Someting goes wrong, Pasword May not Match \n or All Text Field may not filled")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showWarning();
+            
         }
 
     }
@@ -189,7 +183,6 @@ public class RegistrationController implements Initializable {
         return passMatch;
 
     }
-
 
     @FXML
     private void pfKeyTyped(KeyEvent event) {

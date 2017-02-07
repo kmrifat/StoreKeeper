@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import DAL.Users;
+import dataBase.DBProperties;
 
 /**
  * FXML Controller class
@@ -83,6 +84,9 @@ public class AddEmployeController implements Initializable {
     public Button btnClrSalary;
     @FXML
     public Button btnClrPassword;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     Users users = new Users();
     UsersGetway usersGetway = new UsersGetway();
@@ -165,11 +169,11 @@ public class AddEmployeController implements Initializable {
         PreparedStatement pst;
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Select Id FROM User where UsrName=?");
+            pst = con.prepareStatement("Select Id FROM "+db+".User where UsrName=?");
             pst.setString(1, tfUserName.getText());
             rs = pst.executeQuery();
             while (rs.next()) {
-                pst = con.prepareStatement("insert into UserPermission values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("insert into "+db+".UserPermission values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, null);
                 pst.setInt(2, 0);
                 pst.setInt(3, 0);

@@ -9,15 +9,16 @@ import DAL.Supplyer;
 import DAL.Users;
 import List.ListEmployee;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import javafx.scene.image.Image;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -29,13 +30,15 @@ public class UsersGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Users users) {
 
         if (isUniqName(users)) {
             con = dbConnection.geConnection();
             try {
-                pst = con.prepareStatement("insert into User values(?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("insert into "+db+".User values(?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, null);
                 pst.setString(2, users.userName);
                 pst.setString(3, users.fullName);
@@ -58,11 +61,12 @@ public class UsersGetway {
                 pst.close();
                 con.close();
 
-                Dialogs.create().title("Sucess")
-                        .masthead("User Added !")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("User" + "  '" + users.userName + "' " + "Added Sucessfuly")
-                        .showInformation();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess :");
+                alert.setHeaderText("Sucess");
+                alert.setContentText("User " + users.userName + " Added sucessfuly");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -75,7 +79,7 @@ public class UsersGetway {
     public void view(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("select * from User");
+            pst = con.prepareStatement("select * from "+db+".User");
             rs = pst.executeQuery();
             while (rs.next()) {
                 users.id = rs.getString(1);
@@ -94,7 +98,7 @@ public class UsersGetway {
     public void selectedView(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareCall("select * from User where id=?");
+            pst = con.prepareCall("select * from "+db+".User where id=?");
             pst.setString(1, users.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -130,7 +134,7 @@ public class UsersGetway {
     public void update(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("UPDATE User SET FullName=?, EmailAddress=?,ContactNumber=?,Salary=COALESCE(?, Salary),Address=?,Password=COALESCE(?, Password), Status=COALESCE(?, Status), UserImage=COALESCE(?, UserImage) WHERE UsrName=?");
+            pst = con.prepareStatement("UPDATE "+db+".User SET FullName=?, EmailAddress=?,ContactNumber=?,Salary=COALESCE(?, Salary),Address=?,Password=COALESCE(?, Password), Status=COALESCE(?, Status), UserImage=COALESCE(?, UserImage) WHERE UsrName=?");
             pst.setString(1, users.fullName);
             pst.setString(2, users.emailAddress);
             pst.setString(3, users.contactNumber);
@@ -149,11 +153,12 @@ public class UsersGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("User" + "  '" + users.userName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess :");
+            alert.setHeaderText("Updated !!");
+            alert.setContentText("User " + users.userName + " Updated Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -164,7 +169,7 @@ public class UsersGetway {
     public void delete(Users users) {
         con = dbConnection.geConnection();
         try {
-            pst = con.prepareStatement("delete from User where Id=?");
+            pst = con.prepareStatement("delete from "+db+".User where Id=?");
             pst.setString(1, users.id);
             pst.executeUpdate();
             pst.close();
@@ -178,15 +183,16 @@ public class UsersGetway {
         con = dbConnection.geConnection();
         boolean isUniqName = false;
         try {
-            pst = con.prepareStatement("select * from User where UsrName=?");
+            pst = con.prepareStatement("select * from "+db+".User where UsrName=?");
             pst.setString(1, users.userName);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Dialogs.create().title("Sucess")
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("User name" + "  '" + users.userName + "' " + "Already Used")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR :");
+                alert.setHeaderText("ERROR : Name Exist");
+                alert.setContentText("User name " + users.userName + " Already Used");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
                 return isUniqName;
             }
             rs.close();

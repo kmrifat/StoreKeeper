@@ -36,9 +36,9 @@ import javafx.stage.StageStyle;
 import List.ListRma;
 import media.userNameMedia;
 import DAL.RMA;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import java.util.Optional;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  * FXML Controller class
@@ -73,7 +73,7 @@ public class ViewRMAController implements Initializable {
     private TableColumn<Object, Object> clmRMADate;
     @FXML
     private Button btnRefresh;
-    
+
     public userNameMedia getMedia() {
         return media;
     }
@@ -82,7 +82,7 @@ public class ViewRMAController implements Initializable {
         usrId = media.getId();
         this.media = media;
     }
-    
+
     @FXML
     private TextField tfSearch;
 
@@ -90,7 +90,7 @@ public class ViewRMAController implements Initializable {
     private Button btnUpdate;
     @FXML
     private Button btnDelete;
-    
+
     DBConnection dbCon = new DBConnection();
     Connection con;
     PreparedStatement pst;
@@ -106,49 +106,46 @@ public class ViewRMAController implements Initializable {
 
     @FXML
     private void tblViewRMAOnClick(MouseEvent event) {
-        if(!tblViewRMA.getSelectionModel().isEmpty()){
-            if (event.getClickCount() ==2){
+        if (!tblViewRMA.getSelectionModel().isEmpty()) {
+            if (event.getClickCount() == 2) {
                 viewDetails();
             }
         }
 
     }
 
-
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
-        if(!tblViewRMA.getSelectionModel().isEmpty()){
+        if (!tblViewRMA.getSelectionModel().isEmpty()) {
             viewDetails();
-        }else {
+        } else {
             System.out.println("EMPTY SELECTION");
         }
     }
 
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
-        if(!tblViewRMA.getSelectionModel().isEmpty()){
+        if (!tblViewRMA.getSelectionModel().isEmpty()) {
             ListRma selectedRMA = tblViewRMA.getSelectionModel().getSelectedItem();
             String rmaName = selectedRMA.getRmaName();
             rmaId = selectedRMA.getRamId();
-            Action sure = Dialogs.create()
-                    .masthead("Are you sure")
-                    .message("Are you sure to delete '" + rmaName + "' ??")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .actions(Dialog.ACTION_YES, Dialog.ACTION_NO)
-                    .showConfirm();
-            if(sure == Dialog.ACTION_YES){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Login Now");
+            alert.setHeaderText("Confirm");
+            alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+            alert.initStyle(StageStyle.UNDECORATED);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 rma.id = rmaId;
-
                 rmaBLL.delete(rma);
                 tfSearchOnKeyRelesh(event);
             }
-        }else {
+
+        } else {
             System.out.println("NULL SELECTED");
         }
     }
 
-
-    
     public void showDetails() {
         tblViewRMA.setItems(rma.rmaDetails);
         clmRMAId.setCellValueFactory(new PropertyValueFactory<>("ramId"));
@@ -159,15 +156,11 @@ public class ViewRMAController implements Initializable {
         clmRMADate.setCellValueFactory(new PropertyValueFactory<>("date"));
         rmaGetway.view(rma);
     }
-    
-
 
     @FXML
     private void tblViewRMAOnKeyResele(KeyEvent event) {
 
     }
-
-
 
     @FXML
     public void btnAddNew(ActionEvent actionEvent) {
@@ -211,7 +204,7 @@ public class ViewRMAController implements Initializable {
     }
 
     private void viewDetails() {
-        if(!tblViewRMA.getSelectionModel().isEmpty()){
+        if (!tblViewRMA.getSelectionModel().isEmpty()) {
             ListRma selectedRma = tblViewRMA.getSelectionModel().getSelectedItem();
             System.out.println("ID is");
             System.out.println(selectedRma.getRamId());
@@ -243,11 +236,9 @@ public class ViewRMAController implements Initializable {
                     e.printStackTrace();
                 }
             }
-        }else {
+        } else {
             System.out.println("empty Selection");
         }
-
-
 
     }
 
@@ -256,6 +247,5 @@ public class ViewRMAController implements Initializable {
         rma.rmaDetails.clear();
         showDetails();
     }
-
 
 }

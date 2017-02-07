@@ -3,6 +3,7 @@ package BLL;
 import DAL.SellCart;
 import Getway.SellCartGerway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +22,9 @@ public class SellCartBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void sell(SellCart sellCart) {
 
@@ -38,7 +42,7 @@ public class SellCartBLL {
         String updatedQuentity = String.valueOf(uQ);
         try {
             System.out.println("In Processing Update");
-            pst = con.prepareStatement("update Products set Quantity=? where Id=?");
+            pst = con.prepareStatement("update "+db+".Products set Quantity=? where Id=?");
             pst.setString(1, updatedQuentity);
             pst.setString(2, sellCart.Id);
             pst.executeUpdate();

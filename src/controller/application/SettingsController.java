@@ -8,6 +8,7 @@ package controller.application;
 import controller.application.settings.MyAccountController;
 import controller.application.settings.OrgSettingController;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -49,6 +50,9 @@ public class SettingsController implements Initializable {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
     
     private String userID;
     
@@ -131,7 +135,7 @@ public class SettingsController implements Initializable {
     public void settingPermission(){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where id=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where id=?");
             pst.setString(1, userID);
             rs = pst.executeQuery();
             while(rs.next()){

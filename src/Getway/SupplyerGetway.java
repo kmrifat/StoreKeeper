@@ -8,9 +8,7 @@ package Getway;
 import DAL.Supplyer;
 import List.ListSupplyer;
 import dataBase.DBConnection;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
+import dataBase.DBProperties;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +16,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * @author rifat
@@ -28,13 +28,16 @@ public class SupplyerGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Supplyer supplyer) {
         con = dbCon.geConnection();
         if (isUniqSupplyerName(supplyer)) {
             try {
                 con = dbCon.geConnection();
-                pst = con.prepareCall("insert into Supplyer values(?,?,?,?,?,?,?)");
+                pst = con.prepareCall("insert into "+db+".Supplyer values(?,?,?,?,?,?,?)");
                 pst.setString(1, null);
                 pst.setString(2, supplyer.supplyerName);
                 pst.setString(3, supplyer.supplyerContactNumber);
@@ -45,11 +48,13 @@ public class SupplyerGetway {
                 pst.executeUpdate();
                 con.close();
                 pst.close();
-                Dialogs.create().title("Sucess")
-                        .masthead("Saved")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("Supplyer" + "  '" + supplyer.supplyerName + "' " + "Added Sucessfuly")
-                        .showInformation();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("Sucess : save sucess");
+                alert.setContentText("Supplier" + "  '" + supplyer.supplyerName + "' " + "Added successfully");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+
             } catch (SQLException ex) {
                 Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -60,7 +65,7 @@ public class SupplyerGetway {
     public void view(Supplyer supplyer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareCall("select * from Supplyer");
+            pst = con.prepareCall("select * from "+db+".Supplyer");
             rs = pst.executeQuery();
             while (rs.next()) {
                 supplyer.id = rs.getString(1);
@@ -87,7 +92,7 @@ public class SupplyerGetway {
         con = dbCon.geConnection();
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Supplyer where SupplyerName like ? or SupplyerPhoneNumber like ? ORDER BY SupplyerName");
+            pst = con.prepareCall("select * from "+db+".Supplyer where SupplyerName like ? or SupplyerPhoneNumber like ? ORDER BY SupplyerName");
             pst.setString(1, "%" + supplyer.supplyerName + "%");
             pst.setString(2, "%" + supplyer.supplyerName + "%");
             rs = pst.executeQuery();
@@ -100,7 +105,10 @@ public class SupplyerGetway {
                 supplyer.creatorId = rs.getString(6);
                 supplyer.date = rs.getString(7);
                 supplyer.supplyerDetails.addAll(new ListSupplyer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(7)));
-            }rs.close();con.close();pst.close();
+            }
+            rs.close();
+            con.close();
+            pst.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +120,7 @@ public class SupplyerGetway {
         con = dbCon.geConnection();
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Supplyer where id=?");
+            pst = con.prepareCall("select * from "+db+".Supplyer where id=?");
             pst.setString(1, supplyer.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -123,7 +131,10 @@ public class SupplyerGetway {
                 supplyer.supplyerDescription = rs.getString(5);
                 supplyer.creatorId = rs.getString(6);
                 supplyer.date = rs.getString(7);
-            }rs.close();con.close();pst.close();
+            }
+            rs.close();
+            con.close();
+            pst.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +145,7 @@ public class SupplyerGetway {
         System.out.println("we are in update");
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Supplyer where Id=? and SupplyerName=?");
+            pst = con.prepareStatement("select * from "+db+".Supplyer where Id=? and SupplyerName=?");
             pst.setString(1, supplyer.id);
             pst.setString(2, supplyer.supplyerName);
             rs = pst.executeQuery();
@@ -145,11 +156,16 @@ public class SupplyerGetway {
                 pst.close();
                 con.close();
                 return;
-            }rs.close();con.close();pst.close();
+            }
+            rs.close();
+            con.close();
+            pst.close();
             if (isUniqSupplyerName(supplyer)) {
                 System.out.println("Out of the loop");
                 updateNow(supplyer);
-                rs.close();con.close();pst.close();
+                rs.close();
+                con.close();
+                pst.close();
             }
 
         } catch (SQLException e) {
@@ -159,22 +175,26 @@ public class SupplyerGetway {
     }
 
     public void delete(Supplyer supplyer) {
-       con = dbCon.geConnection();
+        con = dbCon.geConnection();
         try {
 
             con = dbCon.geConnection();
-            pst = con.prepareCall("SELECT * FROM Brands WHERE SupplyerId=?");
+            pst = con.prepareCall("SELECT * FROM "+db+".Brands WHERE SupplyerId=?");
             pst.setString(1, supplyer.id);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Dialogs.create()
-                        .lightweight()
-                        .masthead("You can't delete this Supplyer")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("This supplyer provide some brands, please delete these brand first! Is that nessary to delete this supplyer ? \nif not you can update supplyer as much you can")
-                        .showError();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : Action Denied");
+                alert.setContentText("This supplier provide some brands, please delete these brand first! Is that nessary to delete this supplyer ? \nif not you can update supplyer as much you can");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+
                 return;
-            }rs.close();con.close();pst.close();
+            }
+            rs.close();
+            con.close();
+            pst.close();
             deleteParmanently(supplyer);
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,18 +207,22 @@ public class SupplyerGetway {
         boolean uniqSupplyer = false;
         con = dbCon.geConnection();
         try {
-            pst = con.prepareCall("select SupplyerName from Supplyer where SupplyerName=?");
+            pst = con.prepareCall("select SupplyerName from "+db+".Supplyer where SupplyerName=?");
             pst.setString(1, supplyer.supplyerName);
             rs = pst.executeQuery();
             while (rs.next()) {
-                System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("Supplyer" + "  '" + supplyer.supplyerName + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : Action Denied");
+                alert.setContentText("Supplier" + "  '" + supplyer.supplyerName + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+
                 return uniqSupplyer;
-            }rs.close();con.close();pst.close();
+            }
+            rs.close();
+            con.close();
+            pst.close();
             uniqSupplyer = true;
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,19 +233,22 @@ public class SupplyerGetway {
     public void updateNow(Supplyer supplyer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("update Supplyer set SupplyerName=? , SupplyerPhoneNumber=?,SupplyerAddress=? ,SuplyerDescription=? where Id=?");
+            pst = con.prepareStatement("update "+db+".Supplyer set SupplyerName=? , SupplyerPhoneNumber=?,SupplyerAddress=? ,SuplyerDescription=? where Id=?");
             pst.setString(1, supplyer.supplyerName);
             pst.setString(2, supplyer.supplyerContactNumber);
             pst.setString(3, supplyer.supplyerAddress);
             pst.setString(4, supplyer.supplyerDescription);
             pst.setString(5, supplyer.id);
             pst.executeUpdate();
-            con.close();pst.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Supplyer" + "  '" + supplyer.supplyerName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            con.close();
+            pst.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Updated : Updated sucess");
+            alert.setContentText("Supplier" + "  '" + supplyer.supplyerName + "' " + "Updated successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -232,10 +259,11 @@ public class SupplyerGetway {
         try {
             System.out.println("and i am hear");
             con = dbCon.geConnection();
-            pst = con.prepareCall("delete from Supplyer where Id=?");
+            pst = con.prepareCall("delete from "+db+".Supplyer where Id=?");
             pst.setString(1, supplyer.id);
             pst.executeUpdate();
-            con.close();pst.close();
+            con.close();
+            pst.close();
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -246,26 +274,31 @@ public class SupplyerGetway {
         con = dbCon.geConnection();
         boolean isUpdate = false;
         try {
-            pst = con.prepareStatement("select * from Supplyer where Id=?");
+            pst = con.prepareStatement("select * from "+db+".Supplyer where Id=?");
             pst.setString(1, supplyer.id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return isUpdate;
     }
-    
-    public boolean isNotUse(Supplyer supplyer){
+
+    public boolean isNotUse(Supplyer supplyer) {
         con = dbCon.geConnection();
         boolean isNotUse = false;
         try {
-            pst = con.prepareStatement("select * from Brands where SupplyerId=?");
+            pst = con.prepareStatement("select * from "+db+".Brands where SupplyerId=?");
             pst.setString(1, supplyer.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-               Dialogs.create().title("").masthead("Error").message("This Supplyer supplyed  '"+ rs.getString(2) +"' brand \n delete brand first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
-
+            while (rs.next()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("WARNING");
+            alert.setHeaderText("WARNING : ");
+            alert.setContentText("This Supplier supplied  '" + rs.getString(2) + "' brand \n delete brand first");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
                 return isNotUse;
-            }rs.close();
+            }
+            rs.close();
             pst.close();
             con.close();
             isNotUse = true;

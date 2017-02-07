@@ -6,6 +6,7 @@
 package controller.application.employe;
 
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,13 +18,13 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import media.userNameMedia;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -93,6 +94,10 @@ public class EmployeePermissionController implements Initializable {
     private CheckBox cbOrgManage;
     @FXML
     private CheckBox cbMenageRMA;
+    
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public userNameMedia getMedia() {
         return media;
@@ -108,8 +113,6 @@ public class EmployeePermissionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-
 
     }
 
@@ -138,7 +141,7 @@ public class EmployeePermissionController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("UPDATE UserPermission SET AddProduct=?,AddSupplyer=?,AddBrand=?,AddCatagory=?,AddUnit=?,AddCustomer=?,UpdateProduct=?,UpdateSupplyer=?,UpdateBrand=?,UpdateCatagory=?,UpdateUnit=?,UpdateCustomer=?,SellProduct=?,ProvideDiscount=?,EmployeManage=?,OrgManage=?,ChangeOwnPass=?,RMAManage=? WHERE UserId=?");
+            pst = con.prepareStatement("UPDATE "+db+".UserPermission SET AddProduct=?,AddSupplyer=?,AddBrand=?,AddCatagory=?,AddUnit=?,AddCustomer=?,UpdateProduct=?,UpdateSupplyer=?,UpdateBrand=?,UpdateCatagory=?,UpdateUnit=?,UpdateCustomer=?,SellProduct=?,ProvideDiscount=?,EmployeManage=?,OrgManage=?,ChangeOwnPass=?,RMAManage=? WHERE UserId=?");
 //            pst.setString(1, id);
             pst.setInt(1, addProduct);
             pst.setInt(2, addSupplyer);
@@ -161,8 +164,12 @@ public class EmployeePermissionController implements Initializable {
             pst.setString(19, id);
 
             pst.executeUpdate();
-            
-            Dialogs.create().title("").masthead("Updated").message("Permission change successfully").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess");
+            alert.setContentText("Permission change successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
 
         } catch (SQLException ex) {
             Logger.getLogger(EmployeePermissionController.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,7 +214,7 @@ public class EmployeePermissionController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where Id=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where Id=?");
             pst.setString(1, id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -310,9 +317,6 @@ public class EmployeePermissionController implements Initializable {
                 } else {
                     cbChangePassword.setSelected(false);
                 }
-                
-
-
 
             }
 

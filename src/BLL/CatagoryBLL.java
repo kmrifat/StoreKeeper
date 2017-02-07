@@ -4,16 +4,16 @@ import DAL.Catagory;
 import DAL.Supplyer;
 import Getway.CatagoryGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Created by rifat on 8/15/15.
@@ -26,6 +26,9 @@ public class CatagoryBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Catagory catagory){
         if (isUniqName(catagory)){
@@ -55,7 +58,7 @@ public class CatagoryBLL {
         catagory.supplyerId = sql.getIdNo(catagory.supplyerName, catagory.supplyerId, "Supplyer", "SupplyerName");
 
         try {
-            pst = con.prepareStatement("select * from Catagory where CatagoryName=? and BrandId=? and SupplyerId=? and Id=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where CatagoryName=? and BrandId=? and SupplyerId=? and Id=?");
             pst.setString(1, catagory.catagoryName);
             pst.setString(2, catagory.brandId);
             pst.setString(3, catagory.supplyerId);
@@ -77,18 +80,20 @@ public class CatagoryBLL {
         catagory.brandId = sql.getIdNo(catagory.brandName, catagory.brandId, "Brands", "BrandName");
         catagory.supplyerId = sql.getIdNo(catagory.supplyerName, catagory.supplyerId, "Supplyer", "SupplyerName");
         try {
-            pst = con.prepareCall("select * from Catagory where CatagoryName=? and BrandId=? and SupplyerId=?");
+            pst = con.prepareCall("select * from "+db+".Catagory where CatagoryName=? and BrandId=? and SupplyerId=?");
             pst.setString(1, catagory.catagoryName);
             pst.setString(2, catagory.brandId);
             pst.setString(3, catagory.supplyerId);
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("Catagory" + "  '" + catagory.catagoryName + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : used");
+                alert.setContentText("Catagory" + "  '" + catagory.catagoryName + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return uniqSupplyer;
             }
             uniqSupplyer = true;

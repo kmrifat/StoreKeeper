@@ -9,10 +9,8 @@ import DAL.Supplyer;
 import DAL.Unit;
 import List.ListUnit;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +18,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -31,6 +31,9 @@ public class UnitGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     SQL sql = new SQL();
 
@@ -39,7 +42,7 @@ public class UnitGetway {
 
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("insert into Unit values(?,?,?,?,?)");
+            pst = con.prepareCall("insert into "+db+".Unit values(?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, unit.unitName);
             pst.setString(3, unit.unitDescription);
@@ -48,11 +51,13 @@ public class UnitGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Saved")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Unit" + "  '" + unit.unitName + "' " + "Added Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Unit" + "  '" + unit.unitName + "' " + "Added successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,7 +67,7 @@ public class UnitGetway {
     public void view(Unit unit) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareCall("select * from Unit");
+            pst = con.prepareCall("select * from "+db+".Unit");
             rs = pst.executeQuery();
             while (rs.next()) {
                 unit.id = rs.getString(1);
@@ -85,7 +90,7 @@ public class UnitGetway {
         con = dbCon.geConnection();
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Unit where id=?");
+            pst = con.prepareCall("select * from "+db+".Unit where id=?");
             pst.setString(1, unit.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -107,7 +112,7 @@ public class UnitGetway {
         unit.unitDetails.clear();
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Unit where UnitName like ? ORDER BY UnitName");
+            pst = con.prepareCall("select * from "+db+".Unit where UnitName like ? ORDER BY UnitName");
 
             pst.setString(1, "%" + unit.unitName + "%");
             rs = pst.executeQuery();
@@ -132,7 +137,7 @@ public class UnitGetway {
     public void update(Unit unit) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Unit where Id=? and UnitName=?");
+            pst = con.prepareStatement("select * from "+db+".Unit where Id=? and UnitName=?");
             pst.setString(1, unit.id);
             pst.setString(2, unit.unitName);
             rs = pst.executeQuery();
@@ -157,19 +162,20 @@ public class UnitGetway {
     public void updateNow(Unit unit) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("update Unit set UnitName=? , UnitDescription=? where Id=?");
+            pst = con.prepareStatement("update "+db+".Unit set UnitName=? , UnitDescription=? where Id=?");
             pst.setString(1, unit.unitName);
             pst.setString(2, unit.unitDescription);
             pst.setString(3, unit.id);
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("Sucess")
-                    .lightweight()
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Unit" + "  '" + unit.unitName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Updated : Updated sucess");
+            alert.setContentText("Unit" + "  '" + unit.unitName + "' " + "Updated successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -184,17 +190,18 @@ public class UnitGetway {
         con = dbCon.geConnection();
         boolean uniqBrand = false;
         try {
-            pst = con.prepareCall("select UnitName from Unit where UnitName=?");
+            pst = con.prepareCall("select * from "+db+".Unit where UnitName=?");
             pst.setString(1, unit.unitName);
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .lightweight()
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("Unit" + "  '" + unit.unitName + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERROR : Already exist");
+                alert.setContentText("Unit" + "  '" + unit.unitName + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return uniqBrand;
             }
             pst.close();
@@ -211,7 +218,7 @@ public class UnitGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareCall("delete from Unit where Id=?");
+            pst = con.prepareCall("delete from "+db+".Unit where Id=?");
             pst.setString(1, unit.id);
             pst.executeUpdate();
             pst.close();
@@ -221,20 +228,26 @@ public class UnitGetway {
         }
 
     }
-    
-    public boolean isNotUse(Unit unit){
+
+    public boolean isNotUse(Unit unit) {
         con = dbCon.geConnection();
         boolean isNotUse = false;
-        
+
         try {
-            pst = con.prepareStatement("select * from Products where UnitId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where UnitId=?");
             pst.setString(1, unit.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-        Dialogs.create().title("").masthead("Error").message("This Unit use in '"+ rs.getString(2) +"' product \n delete product first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+            while (rs.next()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERROR : used");
+                alert.setContentText("This Unit use in '" + rs.getString(2) + "' product \n delete product first");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
 
                 return isNotUse;
-            }pst.close();
+            }
+            pst.close();
             rs.close();
             con.close();
             isNotUse = true;

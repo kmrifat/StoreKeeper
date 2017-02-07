@@ -13,6 +13,7 @@ import controller.application.stock.ViewRMAController;
 import controller.application.stock.ViewSupplyerController;
 import controller.application.stock.ViewUnitController;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 
 import java.io.IOException;
 import java.net.URL;
@@ -70,6 +71,9 @@ public class StockController implements Initializable {
     private ToggleButton btnRma;
     @FXML
     private ToggleButton btnRepoerts;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public userNameMedia getUserId() {
         return userId;
@@ -218,7 +222,7 @@ public class StockController implements Initializable {
     public void settingPermission(){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where id=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where id=?");
             pst.setString(1, usrId);
             rs = pst.executeQuery();
             while(rs.next()){

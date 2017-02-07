@@ -8,10 +8,8 @@ package Getway;
 import DAL.Customer;
 import List.ListCustomer;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +17,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -31,11 +31,14 @@ public class CustomerGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Customer customer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("insert into Customer values(?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Customer values(?,?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, customer.customerName);
             pst.setString(3, customer.customerConNo);
@@ -46,7 +49,13 @@ public class CustomerGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("").masthead("Sucess..").message("Customer" + customer.customerName + "Added sucessfuly").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Customer" + "  '" + customer.customerName + "' " + "Added successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +65,7 @@ public class CustomerGetway {
     public void view(Customer customer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Customer");
+            pst = con.prepareStatement("select * from "+db+".Customer");
             rs = pst.executeQuery();
             while (rs.next()) {
                 customer.id = rs.getString(1);
@@ -80,7 +89,7 @@ public class CustomerGetway {
     public void selectedView(Customer customer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Customer where Id=?");
+            pst = con.prepareStatement("select * from "+db+".Customer where Id=?");
             pst.setString(1, customer.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -101,7 +110,7 @@ public class CustomerGetway {
         con = dbCon.geConnection();
         customer.customerList.clear();
         try {
-            pst = con.prepareStatement("select * from Customer where CustomerName like ? or CustomerContNo like ?");
+            pst = con.prepareStatement("select * from "+db+".Customer where CustomerName like ? or CustomerContNo like ?");
             pst.setString(1, "%" + customer.customerName + "%");
             pst.setString(2, "%" + customer.customerName + "%");
             rs = pst.executeQuery();
@@ -127,7 +136,7 @@ public class CustomerGetway {
     public void update(Customer customer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("UPDATE Customer set CustomerName=?,CustomerContNo=?,CustomerAddress=? where Id=?");
+            pst = con.prepareStatement("UPDATE "+db+".Customer set CustomerName=?,CustomerContNo=?,CustomerAddress=? where Id=?");
             pst.setString(1, customer.customerName);
             pst.setString(2, customer.customerConNo);
             pst.setString(3, customer.customerAddress);
@@ -135,7 +144,13 @@ public class CustomerGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("").masthead("Name Found").message("Update Sucess").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Update : Update sucess");
+            alert.setContentText("Customer" + "  '" + customer.customerName + "' " + "update successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -144,7 +159,7 @@ public class CustomerGetway {
     public void delete(Customer customer) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("delete from Customer where id=?");
+            pst = con.prepareStatement("delete from "+db+".Customer where id=?");
             pst.setString(1, customer.id);
             pst.executeUpdate();
             pst.close();
@@ -158,12 +173,16 @@ public class CustomerGetway {
         con = dbCon.geConnection();
         boolean isNotUsed = false;
         try {
-            pst = con.prepareStatement("select * from Sells where CustomerId=?");
+            pst = con.prepareStatement("select * from "+db+".Sells where CustomerId=?");
             pst.setString(1, customer.id);
             rs = pst.executeQuery();
             while (rs.next()) {
-           Dialogs.create().title("").masthead("Error").message("This Customer use in sell'"+ rs.getString(2) +"' brand \n delete Customer first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
-
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("ERROE : Already exist ");
+                alert.setContentText("This Customer use in sell'" + rs.getString(2) + "' brand \n delete Customer first");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
                 return isNotUsed;
             }
             rs.close();

@@ -9,6 +9,7 @@ import DAL.Catagory;
 import DAL.Supplyer;
 import List.ListCatagory;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
 
 import java.sql.Connection;
@@ -18,9 +19,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * @author rifat
@@ -32,6 +32,9 @@ public class CatagoryGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Catagory catagory) {
         con = dbCon.geConnection();
@@ -39,7 +42,7 @@ public class CatagoryGetway {
         catagory.brandId = sql.getIdNo(catagory.brandName, catagory.brandId, "Brands", "BrandName");
         catagory.supplyerId = sql.getIdNo(catagory.supplyerName, catagory.supplyerId, "Supplyer", "SupplyerName");
         try {
-            pst = con.prepareStatement("insert into Catagory values(?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Catagory values(?,?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, catagory.catagoryName);
             pst.setString(3, catagory.catagoryDescription);
@@ -50,11 +53,13 @@ public class CatagoryGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Sucess..!!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Brand" + "  '" + catagory.catagoryName + "' " + "Added Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Category" + "  '" + catagory.catagoryName + "' " + "Added Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +70,7 @@ public class CatagoryGetway {
         con = dbCon.geConnection();
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from Catagory");
+            pst = con.prepareCall("select * from "+db+".Catagory");
             rs = pst.executeQuery();
             while (rs.next()) {
                 catagory.id = rs.getString(1);
@@ -79,7 +84,8 @@ public class CatagoryGetway {
                 catagory.supplyerName = sql.getName(catagory.supplyerId, catagory.supplyerName, "Supplyer");
                 catagory.creatorName = sql.getName(catagory.creatorId, catagory.catagoryName, "User");
                 catagory.catagoryDetails.addAll(new ListCatagory(catagory.id, catagory.catagoryName, catagory.catagoryDescription, catagory.brandName, catagory.supplyerName, catagory.creatorName, catagory.date));
-            }pst.close();
+            }
+            pst.close();
             con.close();
             rs.close();
         } catch (SQLException ex) {
@@ -90,7 +96,7 @@ public class CatagoryGetway {
     public void selectedView(Catagory catagory) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Catagory where Id=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where Id=?");
             pst.setString(1, catagory.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -101,7 +107,8 @@ public class CatagoryGetway {
                 catagory.supplyerId = rs.getString(5);
                 catagory.brandName = sql.getName(catagory.brandId, catagory.brandName, "Brands");
                 catagory.supplyerName = sql.getName(catagory.supplyerId, catagory.supplyerName, "Supplyer");
-            }pst.close();
+            }
+            pst.close();
             con.close();
             rs.close();
         } catch (SQLException e) {
@@ -114,12 +121,13 @@ public class CatagoryGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("select * from Brands where SupplyerId=?");
+            pst = con.prepareStatement("select * from "+db+".Brands where SupplyerId=?");
             pst.setString(1, catagory.supplyerId);
             rs = pst.executeQuery();
             while (rs.next()) {
                 catagory.brandName = rs.getString(2);
-            }pst.close();
+            }
+            pst.close();
             con.close();
             rs.close();
         } catch (SQLException e) {
@@ -132,9 +140,8 @@ public class CatagoryGetway {
         con = dbCon.geConnection();
         catagory.catagoryDetails.clear();
 
-
         try {
-            pst = con.prepareStatement("select * from Catagory where CatagoryName like ? ORDER BY CatagoryName");
+            pst = con.prepareStatement("select * from "+db+".Catagory where CatagoryName like ? ORDER BY CatagoryName");
 
             pst.setString(1, "%" + catagory.catagoryName + "%");
             rs = pst.executeQuery();
@@ -167,7 +174,7 @@ public class CatagoryGetway {
         catagory.supplyerId = sql.getIdNo(catagory.supplyerName, catagory.supplyerId, "Supplyer", "SupplyerName");
 
         try {
-            pst = con.prepareStatement("update Catagory set CatagoryName=? , CatagoryDescription=?,BrandId=?,SupplyerId=? where Id=?");
+            pst = con.prepareStatement("update "+db+".Catagory set CatagoryName=? , CatagoryDescription=?,BrandId=?,SupplyerId=? where Id=?");
             pst.setString(1, catagory.catagoryName);
             pst.setString(2, catagory.catagoryDescription);
             pst.setString(3, catagory.brandId);
@@ -176,11 +183,13 @@ public class CatagoryGetway {
             pst.executeUpdate();
             pst.close();
             con.close();
-            Dialogs.create().title("Sucess")
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Catagory" + "  '" + catagory.catagoryName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Update : update sucess");
+            alert.setContentText("Category" + "  '" + catagory.catagoryName + "' " + "Update Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -190,7 +199,7 @@ public class CatagoryGetway {
     public void delete(Catagory catagory) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("delete from Catagory where Id=?");
+            pst = con.prepareStatement("delete from "+db+".Catagory where Id=?");
             pst.setString(1, catagory.id);
             pst.executeUpdate();
             pst.close();
@@ -199,18 +208,24 @@ public class CatagoryGetway {
             e.printStackTrace();
         }
     }
-    
-    public boolean isNotUse(Catagory catagory){
+
+    public boolean isNotUse(Catagory catagory) {
         con = dbCon.geConnection();
         boolean isNotUse = false;
         try {
-            pst = con.prepareCall("select * from Products where CatagoryId=?");
+            pst = con.prepareCall("select * from "+db+".Products where CatagoryId=?");
             pst.setString(1, catagory.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-                Dialogs.create().title("").masthead("Error").message("This Catagory already used in '"+ rs.getString(2) +"' Product \n delete Product first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+            while (rs.next()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("ERROE : Already exist ");
+                alert.setContentText("Category" + "  '" + rs.getString(2) + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
                 return isNotUse;
-            }pst.close();
+            }
+            pst.close();
             rs.close();
             con.close();
             isNotUse = true;
@@ -219,6 +234,5 @@ public class CatagoryGetway {
         }
         return isNotUse;
     }
-
 
 }

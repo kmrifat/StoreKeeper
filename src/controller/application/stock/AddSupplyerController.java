@@ -21,8 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import media.userNameMedia;
 import DAL.Supplyer;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -30,7 +30,6 @@ import org.controlsfx.dialog.Dialogs;
  * @author rifat
  */
 public class AddSupplyerController implements Initializable {
-
 
     private String usrId;
 
@@ -53,11 +52,10 @@ public class AddSupplyerController implements Initializable {
     public Button btnClose;
     @FXML
     public Label lblCaption;
-    
+
     private Stage primaryStage;
     @FXML
     private AnchorPane apContent;
-
 
     public userNameMedia getMedia() {
         return media;
@@ -73,12 +71,12 @@ public class AddSupplyerController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
 
     }
 
@@ -102,12 +100,13 @@ public class AddSupplyerController implements Initializable {
                 || tfSupplyerName.getText().trim().isEmpty()
                 || taSupplyerAddress.getText().trim().isEmpty()
                 || taSupplyerAddress.getText().trim().isEmpty()) {
-
-            Dialogs.create().title("")
-                    .masthead("Null")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Please fill all requre field")
-                    .showWarning();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("error");
+            alert.setHeaderText("ERROR : NULL FOUND");
+            alert.setContentText("Please fill all require field");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
             isNotNull = false;
 
         } else {
@@ -125,7 +124,7 @@ public class AddSupplyerController implements Initializable {
 
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
-        if(isNotNull()) {
+        if (isNotNull()) {
             oSupplier.id = supplyerId;
             oSupplier.supplyerName = tfSupplyerName.getText().trim();
             oSupplier.supplyerContactNumber = taContactNumbers.getText().trim();
@@ -143,7 +142,7 @@ public class AddSupplyerController implements Initializable {
         stage.close();
     }
 
-    public void showDetails(){
+    public void showDetails() {
         oSupplier.id = supplyerId;
         supplyerGetway.selectedView(oSupplier);
         tfSupplyerName.setText(oSupplier.supplyerName);
@@ -161,10 +160,9 @@ public class AddSupplyerController implements Initializable {
     private void apOnMousePressed(MouseEvent event) {
 
     }
-    
-    public void addSupplyerStage(Stage stage){
+
+    public void addSupplyerStage(Stage stage) {
         EffectUtility.makeDraggable(stage, apContent);
     }
-    
-    
+
 }

@@ -34,6 +34,9 @@ public class SQL {
     ResultSet rs;
     PreparedStatement pst;
     
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+    
     
     
     public void registration(String id,String userName,String fullName,
@@ -43,7 +46,7 @@ public class SQL {
         con = dbCon.geConnection();
         
         try {
-            pst = con.prepareStatement("insert into User values(?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".User values(?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, userName);
             pst.setString(3, fullName);
@@ -94,11 +97,11 @@ public class SQL {
         con = dbc.geConnection();
 
         try {
-            pst = con.prepareStatement("Select Id FROM User where UsrName=?");
+            pst = con.prepareStatement("Select Id FROM "+db+".User where UsrName=?");
             pst.setString(1, usrName);
             rs = pst.executeQuery();
             while (rs.next()) {
-                pst = con.prepareStatement("insert into UserPermission values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                pst = con.prepareStatement("insert into "+db+".UserPermission values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 pst.setString(1, null);
                 pst.setInt(2, 1);
                 pst.setInt(3, 1);
@@ -133,7 +136,7 @@ public class SQL {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from User where Id=?");
+            pst = con.prepareStatement("select * from "+db+".User where Id=?");
             pst.setString(1, creatorId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -151,7 +154,7 @@ public class SQL {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+tableName+" where Id=?");
+            pst = con.prepareStatement("select * from "+db+"."+tableName+" where Id=?");
             pst.setString(1, id);
             rs = pst.executeQuery();
             while (rs.next()){
@@ -170,7 +173,7 @@ public class SQL {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from "+tableName+" where "+fieldName+" =?");
+            pst = con.prepareStatement("select * from "+db+"."+tableName+" where "+fieldName+" =?");
             pst.setString(1, name);
             rs = pst.executeQuery();
             while (rs.next()){
@@ -188,7 +191,7 @@ public class SQL {
     public String getBrandID(String supplyerId,String brandId,String brandName){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Brands where SupplyerId=? and BrandName=?");
+            pst = con.prepareStatement("select * from "+db+".Brands where SupplyerId=? and BrandName=?");
             pst.setString(1, supplyerId);
             pst.setString(2, brandName);
             rs  = pst.executeQuery();
@@ -207,7 +210,7 @@ public class SQL {
     public String getCatagoryId(String supplyerId,String brandId,String catagoryId,String catagoryName){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Catagory where SupplyerId=? and BrandId=? and CatagoryName=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where SupplyerId=? and BrandId=? and CatagoryName=?");
             pst.setString(1, supplyerId);
             pst.setString(2, brandId);
             pst.setString(3, catagoryName);
@@ -227,7 +230,7 @@ public class SQL {
     public String getDayes(String rmaDayes, String id){
         con = dbCon.geConnection();;
         try {
-            pst = con.prepareStatement("select * from RMA where id=?");
+            pst = con.prepareStatement("select * from "+db+".RMA where id=?");
             pst.setString(1, id);
             rs = pst.executeQuery();
             while(rs.next()){

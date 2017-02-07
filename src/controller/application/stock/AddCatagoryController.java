@@ -36,8 +36,8 @@ import javafx.stage.StageStyle;
 import media.userNameMedia;
 import DAL.Catagory;
 import Getway.CatagoryGetway;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import dataBase.DBProperties;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -57,6 +57,10 @@ public class AddCatagoryController implements Initializable {
     CatagoryGetway catagoryGetway = new CatagoryGetway();
     CatagoryBLL catagoryBLL = new CatagoryBLL();
     SQL sql = new SQL();
+    
+     DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+    
     private userNameMedia media;
     @FXML
     private ComboBox<String> cbBrandName;
@@ -83,8 +87,6 @@ public class AddCatagoryController implements Initializable {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
-    
-    
 
     public userNameMedia getMedia() {
         return media;
@@ -101,21 +103,18 @@ public class AddCatagoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-
     }
-
-
 
     @FXML
     private void btnSaveCatagory(ActionEvent event) {
-        if(isNotNull()){
+        if (isNotNull()) {
             catagory.brandName = cbBrandName.getSelectionModel().getSelectedItem();
             catagory.supplyerName = cbSupplyerName.getSelectionModel().getSelectedItem();
             catagory.catagoryName = tfCatagoryName.getText().trim();
             catagory.catagoryDescription = taCatagoryDescription.getText().trim();
             catagory.creatorId = userId;
             catagoryBLL.save(catagory);
-            
+
         }
     }
 
@@ -175,16 +174,16 @@ public class AddCatagoryController implements Initializable {
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
         System.out.println("Clicked");
-        if(isNotNull()){
+        if (isNotNull()) {
             catagory.id = catagoryId;
-            if(!cbBrandName.getSelectionModel().isEmpty()){
+            if (!cbBrandName.getSelectionModel().isEmpty()) {
                 catagory.brandName = cbBrandName.getSelectionModel().getSelectedItem();
-            }else if (!cbBrandName.getPromptText().isEmpty()){
+            } else if (!cbBrandName.getPromptText().isEmpty()) {
                 catagory.brandName = cbBrandName.getPromptText();
             }
-            if(!cbSupplyerName.getSelectionModel().isEmpty()){
+            if (!cbSupplyerName.getSelectionModel().isEmpty()) {
                 catagory.supplyerName = cbSupplyerName.getSelectionModel().getSelectedItem();
-            }else if (!cbSupplyerName.getPromptText().isEmpty()){
+            } else if (!cbSupplyerName.getPromptText().isEmpty()) {
                 catagory.supplyerName = cbSupplyerName.getPromptText();
             }
             catagory.catagoryName = tfCatagoryName.getText().trim();
@@ -198,23 +197,23 @@ public class AddCatagoryController implements Initializable {
         stage.close();
     }
 
-    public boolean isNotNull(){
+    public boolean isNotNull() {
         boolean isNotNull;
-        if(tfCatagoryName.getText().trim().isEmpty()
+        if (tfCatagoryName.getText().trim().isEmpty()
                 || cbSupplyerName.getSelectionModel().isEmpty()
                 && cbSupplyerName.getPromptText().isEmpty()
                 || cbBrandName.getSelectionModel().isEmpty()
-                && cbBrandName.getPromptText().isEmpty()){
-
-            Dialogs.create().title("")
-                    .lightweight()
-                    .masthead("Null")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Please fill all requre field")
-                    .showWarning();
+                && cbBrandName.getPromptText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("error");
+            alert.setHeaderText("Error : null found ");
+            alert.setContentText("Please full all requre field");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
 
             isNotNull = false;
-        }else{
+        } else {
             isNotNull = true;
         }
         return isNotNull;
@@ -225,9 +224,9 @@ public class AddCatagoryController implements Initializable {
         cbBrandName.getItems().clear();
         cbBrandName.setPromptText(null);
         try {
-            pst = con.prepareStatement("select * from Supplyer");
+            pst = con.prepareStatement("select * from "+db+".Supplyer");
             rs = pst.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 supplyerName = rs.getString(2);
                 cbSupplyerName.getItems().remove(supplyerName);
                 cbSupplyerName.getItems().add(supplyerName);
@@ -241,12 +240,12 @@ public class AddCatagoryController implements Initializable {
     private void cbBrandNameOnClick(MouseEvent event) throws SQLException {
         cbBrandName.getItems().clear();
         supplyerName = cbSupplyerName.getSelectionModel().getSelectedItem();
-        supplyerId = sql.getIdNo(supplyerName,supplyerId,"Supplyer","SupplyerName");
+        supplyerId = sql.getIdNo(supplyerName, supplyerId, "Supplyer", "SupplyerName");
 
-        pst = con.prepareStatement("select * from Brands where SupplyerId=?");
+        pst = con.prepareStatement("select * from "+db+".Brands where SupplyerId=?");
         pst.setString(1, supplyerId);
         rs = pst.executeQuery();
-        while (rs.next()){
+        while (rs.next()) {
             cbBrandName.getItems().add(rs.getString(2));
         }
     }

@@ -16,6 +16,7 @@ import BLL.CurrentProductBLL;
 import DAL.CurrentProduct;
 import Getway.CurrentProductGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
 
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -44,8 +46,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import media.userNameMedia;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -78,6 +78,9 @@ public class AddProductController implements Initializable {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     @FXML
     private Button btnClose;
@@ -177,9 +180,15 @@ public class AddProductController implements Initializable {
                     currentProduct.userId = usrId;
                     currentProduct.date = dpDate.getValue().toString();
                     currentProductBLL.save(currentProduct);
-                    
+
                 }
-                Dialogs.create().title("").masthead("Sucess").message("Product added Sucessfully").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("error");
+                alert.setHeaderText("Sucess : save sucess ");
+                alert.setContentText("Product added successfully");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
 
             } else {
                 currentProduct.productId = tfProductId.getText().trim();
@@ -196,7 +205,12 @@ public class AddProductController implements Initializable {
                 currentProduct.userId = usrId;
                 currentProduct.date = dpDate.getValue().toString();
                 currentProductBLL.save(currentProduct);
-                Dialogs.create().title("").masthead("Sucess").message("Product added Sucessfully").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showInformation();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("error");
+                alert.setHeaderText("Sucess : save sucess ");
+                alert.setContentText("Product added successfully");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
 
             }
         }
@@ -239,7 +253,7 @@ public class AddProductController implements Initializable {
         cmbBrand.getItems().clear();
         cmbBrand.getItems().removeAll();
         try {
-            pst = con.prepareStatement("select * from Supplyer");
+            pst = con.prepareStatement("select * from "+db+".Supplyer");
             rs = pst.executeQuery();
             while (rs.next()) {
                 cbSupplyer.getItems().addAll(rs.getString(2));
@@ -255,7 +269,7 @@ public class AddProductController implements Initializable {
         cbSupplyer.getSelectionModel().getSelectedItem();
 
         try {
-            pst = con.prepareStatement("select * from Supplyer where SupplyerName=?");
+            pst = con.prepareStatement("select * from "+db+".Supplyer where SupplyerName=?");
             pst.setString(1, cbSupplyer.getSelectionModel().getSelectedItem());
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -273,7 +287,7 @@ public class AddProductController implements Initializable {
         cmbCatagory.getItems().removeAll();
         cmbCatagory.setPromptText(null);
         try {
-            pst = con.prepareStatement("select * from Brands where SupplyerId=?");
+            pst = con.prepareStatement("select * from "+db+".Brands where SupplyerId=?");
             pst.setString(1, supplyerId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -288,7 +302,7 @@ public class AddProductController implements Initializable {
     public void cmbCatagoryOnClick(Event event) {
         cmbCatagory.getItems().clear();
         try {
-            pst = con.prepareStatement("select * from Catagory where SupplyerId=? and BrandId=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where SupplyerId=? and BrandId=?");
             pst.setString(1, supplyerId);
             pst.setString(2, brandId);
             rs = pst.executeQuery();
@@ -304,7 +318,7 @@ public class AddProductController implements Initializable {
     private void cmbBrandOnAction(ActionEvent event) {
         cmbBrand.getSelectionModel().getSelectedItem();
         try {
-            pst = con.prepareStatement("select * from Brands where BrandName=? and SupplyerId=?");
+            pst = con.prepareStatement("select * from "+db+".Brands where BrandName=? and SupplyerId=?");
             pst.setString(1, cmbBrand.getSelectionModel().getSelectedItem());
             pst.setString(2, supplyerId);
             rs = pst.executeQuery();
@@ -320,7 +334,7 @@ public class AddProductController implements Initializable {
     public void cmbCatagoryOnAction(ActionEvent actionEvent) {
         cmbCatagory.getSelectionModel().getSelectedItem();
         try {
-            pst = con.prepareStatement("select * from Catagory where SupplyerId=? and BrandId=?");
+            pst = con.prepareStatement("select * from "+db+".Catagory where SupplyerId=? and BrandId=?");
             pst.setString(1, supplyerId);
             pst.setString(2, brandId);
             rs = pst.executeQuery();
@@ -337,7 +351,7 @@ public class AddProductController implements Initializable {
 
         cbUnit.getItems().clear();
         try {
-            pst = con.prepareStatement("select * from Unit");
+            pst = con.prepareStatement("select * from "+db+".Unit");
             rs = pst.executeQuery();
             while (rs.next()) {
                 cbUnit.getItems().addAll(rs.getString(2));
@@ -352,7 +366,7 @@ public class AddProductController implements Initializable {
     private void cbRMAOnClick(MouseEvent event) {
         cbRMA.getItems().clear();
         try {
-            pst = con.prepareStatement("select * from RMA");
+            pst = con.prepareStatement("select * from "+db+".RMA");
             rs = pst.executeQuery();
             while (rs.next()) {
                 cbRMA.getItems().addAll(rs.getString(2));
@@ -375,9 +389,12 @@ public class AddProductController implements Initializable {
                 || tfProductQuantity.getText().isEmpty()
                 || tfProductPursesPrice.getText().isEmpty()) {
 
-            Dialogs.create().title("Null")
-                    .lightweight().masthead("NULL FOUND").message("Please fill all requere filed")
-                    .showError();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("error");
+            alert.setHeaderText("ERROR : NULL FOUND");
+            alert.setContentText("Please fill all require field");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
 
             insNotNull = false;
         } else {
@@ -408,7 +425,6 @@ public class AddProductController implements Initializable {
             refreshProductList();
         }
 
-
     }
 
     public void viewSelected() {
@@ -436,7 +452,7 @@ public class AddProductController implements Initializable {
     @FXML
     private void cbUnitOnAction(ActionEvent event) {
         try {
-            pst = con.prepareStatement("select * from Unit where UnitName=?");
+            pst = con.prepareStatement("select * from "+db+".Unit where UnitName=?");
             pst.setString(1, cbUnit.getSelectionModel().getSelectedItem());
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -450,7 +466,7 @@ public class AddProductController implements Initializable {
     @FXML
     private void cbRMAOnAction(ActionEvent event) {
         try {
-            pst = con.prepareStatement("select * from RMA where RMAName=?");
+            pst = con.prepareStatement("select * from "+db+".RMA where RMAName=?");
             pst.setString(1, cbRMA.getSelectionModel().getSelectedItem());
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -460,7 +476,6 @@ public class AddProductController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     public void btnAddSupplierOnAction(ActionEvent actionEvent) {
         AddSupplyerController addSupplyerController = new AddSupplyerController();
@@ -587,8 +602,8 @@ public class AddProductController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    public void refreshProductList(){
+
+    public void refreshProductList() {
         try {
             CurrentStoreController asc = new CurrentStoreController();
             FXMLLoader fXMLLoader = new FXMLLoader();
@@ -599,5 +614,5 @@ public class AddProductController implements Initializable {
             Logger.getLogger(AddProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

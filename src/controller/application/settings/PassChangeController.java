@@ -26,9 +26,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import media.userNameMedia;
 import DAL.Users;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import dataBase.DBProperties;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -81,6 +81,9 @@ public class PassChangeController implements Initializable {
     Connection con;
     ResultSet rs;
     PreparedStatement pst;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     /**
      * Initializes the controller class.
@@ -128,12 +131,12 @@ public class PassChangeController implements Initializable {
         if (pfNewPass.getText().matches(pfRePass.getText())) {
             System.out.println("Match");
         } else {
-            Action aDialog = Dialogs.create()
-                    .title("Error")
-                    .actions(Dialog.ACTION_CLOSE)
-                    .message("Invalid password")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showError();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR ");
+            alert.setContentText("Invalid password");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         }
     }
 
@@ -149,12 +152,12 @@ public class PassChangeController implements Initializable {
                 System.out.println("Old Password Match");
                 return conDitionValid;
             }
-            Action aDialog = Dialogs.create()
-                    .title("Error")
-                    .actions(Dialog.ACTION_CLOSE)
-                    .message("Invalid Password")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showError();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR ");
+            alert.setContentText("Invalid password");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
             conDitionValid = false;
 
         } catch (SQLException ex) {
@@ -171,12 +174,13 @@ public class PassChangeController implements Initializable {
             passMatch = true;
 
         } else {
-            Action aDialog = Dialogs.create()
-                    .title("Error")
-                    .actions(Dialog.ACTION_CLOSE)
-                    .message("New Password what you enterd are not matched")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showError();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERROR ");
+            alert.setContentText("New Password what you enterd are not matched");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
             passMatch = false;
         }
         return passMatch;
@@ -186,21 +190,19 @@ public class PassChangeController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update User set Password=? where Id=?");
+            pst = con.prepareStatement("Update "+db+".User set Password=? where Id=?");
             pst.setString(1, pfNewPass.getText());
             pst.setString(2, userId);
             pst.executeUpdate();
 
-            Action aDialog = Dialogs.create()
-                    .title("Error")
-                    .actions(Dialog.ACTION_CLOSE)
-                    .message("Sucess.....")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showWarning();
-            if (aDialog == Dialog.ACTION_CLOSE) {
-                Stage stage = (Stage) btnClose.getScene().getWindow();
-                stage.close();
-            }
+            
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess ");
+            alert.setContentText("Update Password Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
 
         } catch (SQLException ex) {
             Logger.getLogger(PassChangeController.class.getName()).log(Level.SEVERE, null, ex);

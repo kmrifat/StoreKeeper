@@ -6,12 +6,12 @@
 package controller;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import custom.CustomTf;
 import custom.CustomPf;
 import dataBase.DBConnection;
@@ -29,16 +29,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import media.userNameMedia;
 import DAL.Users;
+import dataBase.DBProperties;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 import javafx.scene.image.Image;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
 
     CustomTf cTF = new CustomTf();
     CustomPf cPF = new CustomPf();
-    
+
     @FXML
     private Button btnLogin;
     @FXML
@@ -74,8 +74,14 @@ public class LoginController implements Initializable {
     @FXML
     private AnchorPane apDesignPane;
 
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+    @FXML
+    private Hyperlink hlDatabase;
+
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -94,26 +100,38 @@ public class LoginController implements Initializable {
     private void hlCreateAnAccount(ActionEvent event) throws IOException {
         DBConnection dbCon = new DBConnection();
         con = dbCon.geConnection();
-        try {
-            pst = con.prepareStatement("SELECT Id FROM User ORDER BY Id ASC LIMIT 1");
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                apMother.setOpacity(0.5);
-                Action newActon = Dialogs.create().title("Sucess")
-                        .actions(Dialog.ACTION_CLOSE)
-                        .masthead("permission denied")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("This hyperlink only available only for first user.\nYou can not add or create an account by clicking this link.\nYou need to admin permission to create an account")
-                        .showError();
-                if (newActon == Dialog.ACTION_CLOSE) {
-                    apMother.setOpacity(1);
+        if (con != null) {
+            try {
+                pst = con.prepareStatement("SELECT Id FROM " + db + ".User ORDER BY Id ASC LIMIT 1");
+                rs = pst.executeQuery();
+                if (rs.next()) {
+                    apMother.setOpacity(0.7);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("You can't create an account without admin \n permission");
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        apMother.setOpacity(1.0);
+                    }
+                    return;
                 }
-                return;
-            }
-            loadRegistration();
+                con.close();
+                pst.close();
+                rs.close();
+                loadRegistration();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error : Server Not Found");
+            alert.setContentText("Make sure your mysql is Start properly, \n");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         }
 
     }
@@ -123,35 +141,25 @@ public class LoginController implements Initializable {
 
         DBConnection dbCon = new DBConnection();
         con = dbCon.geConnection();
-        userNameMedia media = new userNameMedia();
+        if (con != null) {
+            userNameMedia media = new userNameMedia();
 
-        ApplicationController apController = new ApplicationController();
+            ApplicationController apController = new ApplicationController();
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/Application.fxml"));
-        loader.load();
-        Parent parent = loader.getRoot();
-        Scene adminPanelScene = new Scene(parent);
-        Stage adminPanelStage = new Stage();
-        adminPanelStage.setMaximized(true);
-//        adminPanelStage.setMinHeight(700.0);
-//        adminPanelStage.setMinWidth(850.0);
-
-        if (isValidCondition()) {
-            try {
-                pst = con.prepareStatement("select * from User where UsrName=? and Password=?");
-                pst.setString(1, tfUserName.getText());
-                pst.setString(2, pfUserPassword.getText());
-                rs = pst.executeQuery();
-
-                while (rs.next()) {
-                    pst = con.prepareStatement("select * from User where UsrName=? and Status=?");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/Application.fxml"));
+            loader.load();
+            Parent parent = loader.getRoot();
+            Scene adminPanelScene = new Scene(parent);
+            Stage adminPanelStage = new Stage();
+            adminPanelStage.setMaximized(true);
+            if (isValidCondition()) {
+                try {
+                    pst = con.prepareStatement("select * from " + db + ".User where UsrName=? and Password=? and Status=1");
                     pst.setString(1, tfUserName.getText());
-                    pst.setInt(2, 1);
+                    pst.setString(2, pfUserPassword.getText());
                     rs = pst.executeQuery();
-
-                    while (rs.next()) {
-//                        System.out.println(rs.getInt(1));
+                    if (rs.next()) {
                         userNameMedia usrNameMedia = new userNameMedia(rs.getString(1), rs.getString(2));
                         ApplicationController apControl = loader.getController();
                         apControl.setUsrNameMedia(usrNameMedia);
@@ -165,42 +173,42 @@ public class LoginController implements Initializable {
 
                         Stage stage = (Stage) btnLogin.getScene().getWindow();
                         stage.close();
-                        System.out.println("Now You Ready to go to Admin Panel");
-                        return;
+                    } else {
+                        System.out.println("Password Not Match");
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Password Not Match");
+                        alert.setHeaderText("Error : Name or Pass Not matched");
+                        alert.setContentText("User Name or Password not matched \ntry Again");
+                        alert.initStyle(StageStyle.UNDECORATED);
+                        alert.showAndWait();
                     }
-                    System.out.println("Account Not Active");
-                    Action acNotActive = Dialogs.create()
-                            .message("This account not active right now \n "
-                                    + "Please contact with admin to active your account \n"
-                                    + " Thank You")
-                            .actions(Dialog.ACTION_CLOSE)
-                            .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                            .showConfirm();
-                    return;
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Password Not Match");
-                Action acNotActive = Dialogs.create()
-                        .message("\n User Name and Password Not Match")
-                        .actions(Dialog.ACTION_CLOSE)
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .showError();
 
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error : Server Not Found");
+            alert.setContentText("Make sure your mysql is Start properly, \n");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         }
+
     }
 
     private boolean isValidCondition() {
         boolean validCondition = false;
         if (tfUserName.getText().trim().isEmpty()
                 || pfUserPassword.getText().isEmpty()) {
-            Action warn = Dialogs.create()
-                    .actions(Dialog.ACTION_OK)
-                    .message("Please Fill Text Field And Password Properly")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showWarning();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("WARNING :");
+            alert.setHeaderText("WARNING !!");
+            alert.setContentText("Please Fill Text Field And Password Properly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
 
             validCondition = false;
         } else {
@@ -244,4 +252,21 @@ public class LoginController implements Initializable {
         }
 
     }
+
+    @FXML
+    private void hlDbOnAction(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/view/Server.fxml"));
+            Scene scene = new Scene(root);
+            Stage nStage = new Stage();
+            nStage.setScene(scene);
+            nStage.setMaximized(false);
+            nStage.setTitle("Server Status -StoreKeeper");
+            nStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -3,13 +3,14 @@ package BLL;
 import DAL.Customer;
 import Getway.CustomerGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Created by rifat on 8/15/15.
@@ -21,6 +22,8 @@ public class CustomerBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(Customer customer){
         if(isUniqName(customer)){
@@ -42,12 +45,18 @@ public class CustomerBLL {
     public boolean isUniqName(Customer customer) {
         boolean inUniqName = false;
         try {
-            pst = con.prepareStatement("select * from Customer where CustomerName=? and CustomerContNo=?");
+            pst = con.prepareStatement("select * from "+db+".Customer where CustomerName=? and CustomerContNo=?");
             pst.setString(1, customer.customerName);
             pst.setString(2, customer.customerConNo);
             rs = pst.executeQuery();
             while (rs.next()){
-                Dialogs.create().lightweight().title("").masthead("Name Found").message("This Customer name or phone number already exist").showError();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : used");
+                alert.setContentText("This Customer name or phone number already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
 
                 return inUniqName;
             }
@@ -61,7 +70,7 @@ public class CustomerBLL {
     public boolean isUpdate(Customer customer) {
         boolean isUpdate = false;
         try {
-            pst = con.prepareStatement("select * from Customer where Id=? and CustomerName=? and CustomerContNo=? and CustomerAddress=?");
+            pst = con.prepareStatement("select * from "+db+".Customer where Id=? and CustomerName=? and CustomerContNo=? and CustomerAddress=?");
             pst.setString(1,customer.id);
             pst.setString(2,customer.customerName);
             pst.setString(3,customer.customerConNo);
@@ -81,7 +90,7 @@ public class CustomerBLL {
     private boolean isSame(Customer customer){
         boolean isSame = false;
         try {
-            pst = con.prepareStatement("select * from Customer where id=? and CustomerName=? and CustomerContNo=?");
+            pst = con.prepareStatement("select * from "+db+".Customer where id=? and CustomerName=? and CustomerContNo=?");
             pst.setString(1,customer.id);
             pst.setString(2,customer.customerName);
             pst.setString(3,customer.customerConNo);

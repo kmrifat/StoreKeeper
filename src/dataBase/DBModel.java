@@ -5,26 +5,51 @@
  */
 package dataBase;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
  * @author rifat
  */
 public class DBModel {
+    
+    Properties properties = new Properties();
+    InputStream inputStream;
+    String db;
+    
+    
+    
+    public void loadPropertiesFile(){
+        try {
+            inputStream = new FileInputStream("database.properties");
+            properties.load(inputStream);
+            db = properties.getProperty("db");
+        } catch (IOException e) {
+            System.out.println("DDDD");
+        }
+    }
 
     PreparedStatement pst;
 
     public void createDataBase() {
+        loadPropertiesFile();
         DBConnection con = new DBConnection();
         try {
-            pst = con.mkDataBase().prepareStatement("create database if not exists StorKeeper2 DEFAULT CHARACTER SET utf8 \n"
+            pst = con.mkDataBase().prepareStatement("create database if not exists "+db+" DEFAULT CHARACTER SET utf8 \n"
                     + "  DEFAULT COLLATE utf8_general_ci");
             pst.execute();
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`User` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`User` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `UsrName` VARCHAR(20) NOT NULL,\n"
                     + "  `FullName` VARCHAR(100) ,\n"
@@ -40,7 +65,7 @@ public class DBModel {
                     + "  PRIMARY KEY (`Id`),\n"
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`UserPermission` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`UserPermission` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `AddProduct` tinyint(1) DEFAULT NULL,\n"
                     + "  `AddSupplyer` tinyint(1) DEFAULT NULL,\n"
@@ -64,7 +89,7 @@ public class DBModel {
                     + "  PRIMARY KEY (`Id`),\n"
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`Organize` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`Organize` (\n"
                     + "  `Id` int(1) NOT NULL ,\n"
                     + "  `OrgName` varchar(100) DEFAULT NULL,\n"
                     + "  `OrgWeb` varchar(100) DEFAULT NULL,\n"
@@ -76,7 +101,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`Supplyer` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`Supplyer` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `SupplyerName` varchar(100) DEFAULT NULL,\n"
                     + "  `SupplyerPhoneNumber` text DEFAULT NULL,\n"
@@ -88,7 +113,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`Brands` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`Brands` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `BrandName` varchar(70) DEFAULT NULL,\n"
                     + "  `Description` text DEFAULT NULL,\n"
@@ -100,7 +125,7 @@ public class DBModel {
 
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`Catagory` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`Catagory` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `CatagoryName` varchar(70) DEFAULT NULL,\n"
                     + "  `CatagoryDescription` text DEFAULT NULL,\n"
@@ -112,7 +137,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
 
             pst.execute();
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`Unit` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`Unit` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `UnitName` varchar(50) DEFAULT NULL,\n"
                     + "  `UnitDescription` text DEFAULT NULL,\n"
@@ -123,7 +148,7 @@ public class DBModel {
 
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists `StorKeeper2`.`RMA` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE if not exists "+db+".`RMA` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `RMAName` varchar(100) DEFAULT NULL,\n"
                     + "  `RMADays` varchar(11) NOT NULL,\n"
@@ -134,7 +159,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
 
             pst.execute();
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS `StorKeeper2`.`Products` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`Products` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `ProductId` varchar(20) NOT NULL,\n"
                     + "  `ProductName` varchar(150) NOT NULL,\n"
@@ -153,7 +178,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS `StorKeeper2`.`Customer` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`Customer` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `CustomerName` varchar(200) NOT NULL,\n"
                     + "  `CustomerContNo` varchar(200) DEFAULT NULL,\n"
@@ -165,7 +190,7 @@ public class DBModel {
                     + "  UNIQUE INDEX `Id` (`Id` ASC));");
             pst.execute();
 
-            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS `StorKeeper2`.`Sell` (\n"
+            pst = con.mkDataBase().prepareStatement("CREATE TABLE IF NOT EXISTS "+db+".`Sell` (\n"
                     + "  `Id` int(11) NOT NULL AUTO_INCREMENT,\n"
                     + "  `SellId` varchar(10) NOT NULL,\n"
                     + "  `CustomerId` varchar(11) NOT NULL,\n"
@@ -184,7 +209,17 @@ public class DBModel {
             System.out.println("Create Database Sucessfuly");
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBModel.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/view/Server.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Server Configur");
+                stage.showAndWait();
+            } catch (IOException ex1) {
+                Logger.getLogger(DBModel.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 }

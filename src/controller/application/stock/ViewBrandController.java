@@ -35,8 +35,7 @@ import media.userNameMedia;
 import DAL.Brands;
 import Getway.BrandsGetway;
 import List.ListBrands;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.*;
+import java.util.Optional;
 
 /**
  * FXML Controller class
@@ -63,7 +62,6 @@ public class ViewBrandController implements Initializable {
     PreparedStatement pst;
     ResultSet rs;
 
-
     @FXML
     private TableView<ListBrands> tblBrand;
     @FXML
@@ -88,7 +86,6 @@ public class ViewBrandController implements Initializable {
     private Button btnDelete;
     @FXML
     private Button btnRefresh;
-
 
     public userNameMedia getMedia() {
         return media;
@@ -162,39 +159,34 @@ public class ViewBrandController implements Initializable {
 
     @FXML
     private void btnUpdateOnAction(Event event) {
-        if(tblBrand.getSelectionModel().getSelectedItem() != null){
+        if (tblBrand.getSelectionModel().getSelectedItem() != null) {
             viewDetails();
-        }else {
+        } else {
             System.out.println("EMPTY SELECTION");
         }
-
 
     }
 
     @FXML
     private void btnDeleteOnAction(Event event) {
         ListBrands selectedBrand = tblBrand.getSelectionModel().getSelectedItem();
-        Action delete = Dialogs.create().title("Sucess")
-                .masthead("Confirm to delete!!")
-                .actions(org.controlsfx.dialog.Dialog.ACTION_YES, org.controlsfx.dialog.Dialog.ACTION_NO)
-                .styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED)
-                .message("Are you sure to delete " + "  '" + selectedBrand.getBrandName() + "' ??")
-                .showConfirm();
-
-        if (delete == org.controlsfx.dialog.Dialog.ACTION_YES) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Login Now");
+        alert.setHeaderText("Confirm");
+        alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+        alert.initStyle(StageStyle.UNDECORATED);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             brands.id = selectedBrand.getId();
-            System.out.println(brands.id+ "On hear");
+            System.out.println(brands.id + "On hear");
             brandBLL.delete(brands);
-//            acContent.setOpacity(1);
             tblBrand.getItems().clear();
             showDetails();
-        }else{
-//            acContent.setOpacity(1);
         }
 
     }
 
-    public void showDetails(){
+    public void showDetails() {
         tblBrand.setItems(brands.brandDitails);
         tblCollumId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tblCollumName.setCellValueFactory(new PropertyValueFactory<>("brandName"));
@@ -294,7 +286,7 @@ public class ViewBrandController implements Initializable {
 
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
-         brands.brandDitails.clear();
-         showDetails();
+        brands.brandDitails.clear();
+        showDetails();
     }
 }

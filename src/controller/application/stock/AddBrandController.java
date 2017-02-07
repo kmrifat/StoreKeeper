@@ -36,8 +36,8 @@ import javafx.stage.StageStyle;
 import media.userNameMedia;
 import DAL.Brands;
 import Getway.BrandsGetway;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import dataBase.DBProperties;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -45,6 +45,7 @@ import org.controlsfx.dialog.Dialogs;
  * @author rifat
  */
 public class AddBrandController implements Initializable {
+
     public Button btnAddSupplyer;
     private userNameMedia media;
 
@@ -62,6 +63,9 @@ public class AddBrandController implements Initializable {
     PreparedStatement pst;
     ResultSet rs;
     
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+
     @FXML
     public Button btnUpdate;
     @FXML
@@ -77,7 +81,6 @@ public class AddBrandController implements Initializable {
     private TextArea taDiscription;
     @FXML
     public Button btnAddBrand;
-
 
     public userNameMedia getMedia() {
         return media;
@@ -97,9 +100,9 @@ public class AddBrandController implements Initializable {
     }
 
     @FXML
-    private void btnAddBrandOnAction(ActionEvent event){
+    private void btnAddBrandOnAction(ActionEvent event) {
         System.out.println(usrId);
-        if(isNotNull()){
+        if (isNotNull()) {
             brands.creatorId = usrId;
             brands.brandName = tfBrandName.getText();
             brands.brandComment = taDiscription.getText();
@@ -119,11 +122,11 @@ public class AddBrandController implements Initializable {
         cbSupplyer.getItems().clear();
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Supplyer order by SupplyerName");
+            pst = con.prepareStatement("select * from "+db+".Supplyer order by SupplyerName");
             rs = pst.executeQuery();
             while (rs.next()) {
                 supplyerName = rs.getString(2);
-               
+
                 cbSupplyer.getItems().add(supplyerName);
             }
         } catch (SQLException ex) {
@@ -131,16 +134,14 @@ public class AddBrandController implements Initializable {
         }
     }
 
-
-
     @FXML
     private void btnUpdateOnAction(ActionEvent event) {
         System.out.println();
-        if(isNotNull()){
+        if (isNotNull()) {
             brands.id = brandId;
-            if(!cbSupplyer.getSelectionModel().isEmpty()){
+            if (!cbSupplyer.getSelectionModel().isEmpty()) {
                 brands.supplyerName = cbSupplyer.getSelectionModel().getSelectedItem();
-            }else if(!cbSupplyer.getPromptText().isEmpty()){
+            } else if (!cbSupplyer.getPromptText().isEmpty()) {
                 brands.supplyerName = cbSupplyer.getPromptText();
             }
 
@@ -152,7 +153,7 @@ public class AddBrandController implements Initializable {
 
     @FXML
     private void btnCloseOnAction(ActionEvent event) {
-        Stage  stage = (Stage) btnClose.getScene().getWindow();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
@@ -164,13 +165,14 @@ public class AddBrandController implements Initializable {
         if (tfBrandName.getText().trim().isEmpty()
                 || cbSupplyer.getSelectionModel().isEmpty()
                 && cbSupplyer.getPromptText().isEmpty()) {
-
-            Dialogs.create().title("")
-                    .lightweight()
-                    .masthead("Null")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Please fill all requre field")
-                    .showWarning();
+            
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("error");
+            alert.setHeaderText("Error : null found ");
+            alert.setContentText("Please full all requre field");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+            
             isNotNull = false;
 
         } else {
@@ -178,7 +180,8 @@ public class AddBrandController implements Initializable {
         }
         return isNotNull;
     }
-    public void showDetails(){
+
+    public void showDetails() {
         brands.id = brandId;
         brandsGetway.selectedView(brands);
         tfBrandName.setText(brands.brandName);

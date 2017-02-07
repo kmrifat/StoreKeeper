@@ -8,9 +8,8 @@ package Getway;
 import DAL.CurrentProduct;
 import List.ListProduct;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +17,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.controlsfx.dialog.Dialog;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * @author rifat
@@ -29,13 +29,16 @@ public class CurrentProductGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     SQL sql = new SQL();
 
     public void save(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("insert into Products values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Products values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, currentProduct.productId);
             pst.setString(3, currentProduct.productName);
@@ -64,9 +67,9 @@ public class CurrentProductGetway {
     public void view(CurrentProduct currentProduct) {
         currentProduct.currentProductList.clear();
         con = dbCon.geConnection();
-        
+
         try {
-            pst = con.prepareStatement("SELECT SQL_NO_CACHE * FROM Products");
+            pst = con.prepareStatement("SELECT SQL_NO_CACHE * FROM "+db+".Products");
             rs = pst.executeQuery();
             while (rs.next()) {
 
@@ -104,7 +107,7 @@ public class CurrentProductGetway {
     public void selectedView(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Products where id=?");
+            pst = con.prepareStatement("select * from "+db+".Products where id=?");
             pst.setString(1, currentProduct.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -136,13 +139,13 @@ public class CurrentProductGetway {
             e.printStackTrace();
         }
     }
-    
-    public void viewFistTen(CurrentProduct currentProduct){
+
+    public void viewFistTen(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
 
         currentProduct.currentProductList.clear();
         try {
-            pst = con.prepareStatement("select * from Products limit 0,15");
+            pst = con.prepareStatement("select * from "+db+".Products limit 0,15");
             rs = pst.executeQuery();
             while (rs.next()) {
 
@@ -181,7 +184,7 @@ public class CurrentProductGetway {
 
         currentProduct.currentProductList.clear();
         try {
-            pst = con.prepareStatement("select * from Products where ProductId like ? or ProductName like ?");
+            pst = con.prepareStatement("select * from "+db+".Products where ProductId like ? or ProductName like ?");
             pst.setString(1, "%" + currentProduct.productId + "%");
             pst.setString(2, "%" + currentProduct.productId + "%");
             rs = pst.executeQuery();
@@ -223,7 +226,7 @@ public class CurrentProductGetway {
         currentProduct.currentProductList.clear();
         currentProduct.supplierId = sql.getIdNo(currentProduct.supplierName, currentProduct.supplierId, "Supplyer", "SupplyerName");
         try {
-            pst = con.prepareStatement("select * from Products where SupplyerId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where SupplyerId=?");
             pst.setString(1, currentProduct.supplierId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -266,7 +269,7 @@ public class CurrentProductGetway {
         System.out.println("Brand ID: " + currentProduct.brandId);
 
         try {
-            pst = con.prepareStatement("select * from Products where BrandId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where BrandId=?");
             pst.setString(1, currentProduct.brandId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -308,7 +311,7 @@ public class CurrentProductGetway {
         currentProduct.brandId = sql.getBrandID(currentProduct.supplierId, currentProduct.brandId, currentProduct.brandName);
         currentProduct.catagoryId = sql.getCatagoryId(currentProduct.supplierId, currentProduct.brandId, currentProduct.catagoryId, currentProduct.catagoryName);
         try {
-            pst = con.prepareStatement("select * from Products where CatagoryId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where CatagoryId=?");
             pst.setString(1, currentProduct.catagoryId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -348,7 +351,7 @@ public class CurrentProductGetway {
         currentProduct.currentProductList.clear();
 
         try {
-            pst = con.prepareStatement("select * from Products where RMAId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where RMAId=?");
             pst.setString(1, currentProduct.rmaId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -386,7 +389,7 @@ public class CurrentProductGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("select * from Products where ProductId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where ProductId=?");
             pst.setString(1, currentProduct.productId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -428,7 +431,7 @@ public class CurrentProductGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("select * from Supplyer");
+            pst = con.prepareStatement("select * from "+db+".Supplyer");
             rs = pst.executeQuery();
             while (rs.next()) {
                 currentProduct.supplyerList = rs.getString(2);
@@ -445,7 +448,7 @@ public class CurrentProductGetway {
         con = dbCon.geConnection();
 
         try {
-            pst = con.prepareStatement("update Products set ProductId=?, ProductName=?, Quantity=?, Description=?, "
+            pst = con.prepareStatement("update "+db+".Products set ProductId=?, ProductName=?, Quantity=?, Description=?, "
                     + "SupplyerId=?, BrandId=?, CatagoryId=?,"
                     + " UnitId=?, PursesPrice=?, SellPrice=?, RMAId=?, Date=?  where Id=?");
             pst.setString(1, currentProduct.productId);
@@ -465,7 +468,12 @@ public class CurrentProductGetway {
             pst.close();
             con.close();
             rs.close();
-            Dialogs.create().lightweight().title("Update").masthead("Update Sucess").message("Update Success").showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Update : update sucess");
+            alert.setContentText("Category" + "  '" + currentProduct.productId + "' " + "Update Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         } catch (SQLException ex) {
             Logger.getLogger(CurrentProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -474,7 +482,7 @@ public class CurrentProductGetway {
     public void delete(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("delete from Products where id=?");
+            pst = con.prepareStatement("delete from "+db+".Products where id=?");
             pst.setString(1, currentProduct.id);
             pst.executeUpdate();
             pst.close();
@@ -483,18 +491,25 @@ public class CurrentProductGetway {
             Logger.getLogger(CurrentProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean isNotSoled(CurrentProduct currentProduct){
+
+    public boolean isNotSoled(CurrentProduct currentProduct) {
         con = dbCon.geConnection();
         boolean isNotSoled = false;
         try {
-            pst = con.prepareStatement("select * from Sell where ProductId=?");
+            pst = con.prepareStatement("select * from "+db+".Sell where ProductId=?");
             pst.setString(1, currentProduct.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-            Dialogs.create().title("").masthead("Error").message("This product has been  soled you can't delete it").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+            while (rs.next()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("WARNING : ");
+                alert.setContentText("This product has been  soled you can't delete it");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return isNotSoled;
-            }rs.close();
+            }
+            rs.close();
             pst.close();
             con.close();
             isNotSoled = true;
@@ -503,7 +518,5 @@ public class CurrentProductGetway {
         }
         return isNotSoled;
     }
-    
-    
 
 }

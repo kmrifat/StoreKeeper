@@ -39,7 +39,6 @@ public class SQLightConnection {
             System.out.println("SQLIGHT DATABASE OPENED SUCESSFULY");
             pst = con.prepareStatement(table);
             pst.execute();
-
             System.out.println("SUcessfuly crrate table");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SQLightConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,23 +46,6 @@ public class SQLightConnection {
             Logger.getLogger(SQLightConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con;
-    }
-
-    public Connection getCon() {
-        try {
-            pst = con.prepareStatement(demoValue);
-            pst.setString(1, "1");
-            pst.setString(2, "localhost");
-            pst.setString(3, "3306");
-            pst.setString(4, "root");
-            pst.setString(5, "");
-            pst.execute();
-            System.out.println("Insert Data Sucessfuly");
-        } catch (SQLException ex) {
-            Logger.getLogger(SQLightConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return con;
-        
     }
 
 }

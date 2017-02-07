@@ -9,10 +9,8 @@ import DAL.RMA;
 import DAL.Supplyer;
 import List.ListRma;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +18,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * @author rifat
@@ -32,11 +32,14 @@ public class RmaGetway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(RMA rma) {
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("insert into RMA values(?,?,?,?,?,?)");
+            pst = con.prepareCall("insert into "+db+".RMA values(?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, rma.rmaName);
             pst.setString(3, rma.rmaDays);
@@ -44,11 +47,13 @@ public class RmaGetway {
             pst.setString(5, rma.creatorId);
             pst.setString(6, LocalDate.now().toString());
             pst.executeUpdate();
-            Dialogs.create().title("Sucess")
-                    .masthead("Saved")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Unit" + "  '" + rma.rmaName + "' " + "Added Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Unit" + "  '" + rma.rmaName + "' " + "Added successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException ex) {
             Logger.getLogger(Supplyer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,7 +63,7 @@ public class RmaGetway {
 
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from RMA");
+            pst = con.prepareCall("select * from "+db+".RMA");
             rs = pst.executeQuery();
             while (rs.next()) {
                 rma.id = rs.getString(1);
@@ -78,7 +83,7 @@ public class RmaGetway {
     public void selectedView(RMA rma) {
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from RMA where id=?");
+            pst = con.prepareCall("select * from "+db+".RMA where id=?");
             pst.setString(1, rma.id);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -99,7 +104,7 @@ public class RmaGetway {
         System.out.println("name :" + rma.rmaName);
         try {
             con = dbCon.geConnection();
-            pst = con.prepareCall("select * from RMA where RMAName like ? or RMADays like ? ORDER BY RMAName");
+            pst = con.prepareCall("select * from "+db+".RMA where RMAName like ? or RMADays like ? ORDER BY RMAName");
 
             pst.setString(1, "%" + rma.rmaName + "%");
             pst.setString(2, "%" + rma.rmaName + "%");
@@ -123,18 +128,19 @@ public class RmaGetway {
 
     public void update(RMA rma) {
         try {
-            pst = con.prepareStatement("update RMA set RMAName=? , RMADays=?, Comment=? where Id=?");
+            pst = con.prepareStatement("update "+db+".RMA set RMAName=? , RMADays=?, Comment=? where Id=?");
             pst.setString(1, rma.rmaName);
             pst.setString(2, rma.rmaDays);
             pst.setString(3, rma.rmaComment);
             pst.setString(4, rma.id);
             pst.executeUpdate();
-            Dialogs.create().title("Sucess")
-                    .lightweight()
-                    .masthead("Updated !!")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Unit" + "  '" + rma.rmaName + "' " + "Updated Sucessfuly")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucess");
+            alert.setHeaderText("Sucess : save sucess");
+            alert.setContentText("Unit" + "  '" + rma.rmaName + "' " + "Updated successfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -145,7 +151,7 @@ public class RmaGetway {
         try {
             System.out.println("and i am hear");
             con = dbCon.geConnection();
-            pst = con.prepareCall("delete from RMA where Id=?");
+            pst = con.prepareCall("delete from "+db+".RMA where Id=?");
             pst.setString(1, rma.id);
             pst.executeUpdate();
             pst.close();
@@ -159,18 +165,19 @@ public class RmaGetway {
         con = dbCon.geConnection();
         boolean uniqRMA = false;
         try {
-            pst = con.prepareCall("select * from RMA where RMAName=? or RMADays=?");
+            pst = con.prepareCall("select * from "+db+".RMA where RMAName=? or RMADays=?");
             pst.setString(1, rma.rmaName);
             pst.setString(2, rma.rmaDays);
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .lightweight()
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("RMA" + "  '" + rma.rmaName + "/" + rma.rmaDays + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : save sucess");
+                alert.setContentText("RMA" + "  '" + rma.rmaName + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return uniqRMA;
             }
             rs.close();
@@ -187,14 +194,19 @@ public class RmaGetway {
         con = dbCon.geConnection();
         boolean isNotUse = false;
         try {
-            pst = con.prepareStatement("select * from Products where RMAId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where RMAId=?");
             pst.setString(1, rma.id);
             rs = pst.executeQuery();
-            while(rs.next()){
-                Dialogs.create().title("").masthead("Error").message("This RMA use in product'"+ rs.getString(2) +"'  \n delete product first").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
-
-                return  isNotUse;
-            }rs.close();
+            while (rs.next()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : save sucess");
+                alert.setContentText("This RMA use in product'" + rs.getString(2) + "'  \n delete product first");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                return isNotUse;
+            }
+            rs.close();
             pst.close();
             con.close();
             isNotUse = true;

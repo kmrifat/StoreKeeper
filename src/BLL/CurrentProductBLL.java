@@ -1,19 +1,18 @@
 package BLL;
 
 import DAL.CurrentProduct;
-import DAL.Customer;
 import Getway.CurrentProductGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.controlsfx.dialog.Dialog;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Created by rifat on 8/15/15.
@@ -24,7 +23,9 @@ public class CurrentProductBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
-
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+    
     SQL sql = new SQL();
     CurrentProductGetway currentProductGetway = new CurrentProductGetway();
 
@@ -51,11 +52,17 @@ public class CurrentProductBLL {
         System.out.println("WE ARE IS IS UNIT NAME");
         boolean isUniqname = false;
         try {
-            pst = con.prepareStatement("select * from Products where ProductId=?");
+            pst = con.prepareStatement("select * from "+db+".Products where ProductId=?");
             pst.setString(1, currentProduct.productId);
             rs = pst.executeQuery();
             while (rs.next()) {
-                Dialogs.create().title("Warning").lightweight().masthead("Product id not Uniq").message("").showWarning();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : Not Uniq");
+                alert.setContentText("Product id" + "  '" + currentProduct.productId + "' " + "id not Uniq");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return isUniqname;
             }
             isUniqname = true;
@@ -69,7 +76,7 @@ public class CurrentProductBLL {
         System.out.println("WE ARE IS IS UPDTE");
         boolean isUpdate = false;
         try {
-            pst = con.prepareStatement("select * from Products where Id=? and ProductId=? and ProductName=? and Quantity=? and Description=? and SupplyerId=? and BrandId=? "
+            pst = con.prepareStatement("select * from "+db+".Products where Id=? and ProductId=? and ProductName=? and Quantity=? and Description=? and SupplyerId=? and BrandId=? "
                     + "and CatagoryId=? and UnitId=? and PursesPrice=? and SellPrice=? and RMAId=? and Date=?");
             pst.setString(1, currentProduct.id);
             pst.setString(2, currentProduct.productId);
@@ -99,7 +106,7 @@ public class CurrentProductBLL {
         boolean isTrueUpdate = false;
         if (isUpdate(currentProduct)) {
             try {
-                pst = con.prepareStatement("select * from Products where id=? and ProductId=?");
+                pst = con.prepareStatement("select * from "+db+".Products where id=? and ProductId=?");
                 pst.setString(1, currentProduct.id);
                 pst.setString(2, currentProduct.productId);
                 rs = pst.executeQuery();
@@ -118,7 +125,13 @@ public class CurrentProductBLL {
         
         boolean isNotNull = false;
         if (currentProduct.productId.isEmpty() || currentProduct.sellPrice.isEmpty() || currentProduct.quantity.isEmpty()) {
-            Dialogs.create().title(null).masthead("Null not tolarate").message("Please fill requrer field").styleClass(Dialog.STYLE_CLASS_UNDECORATED).showError();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : Null Found");
+                alert.setContentText("Please fill requrer field");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+            
             return isNotNull;
         }
         return isNotNull;

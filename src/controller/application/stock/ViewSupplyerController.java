@@ -33,10 +33,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import List.ListSupplyer;
 import DAL.Supplyer;
+import java.util.Optional;
 import media.userNameMedia;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.*;
-import org.controlsfx.dialog.Dialog;
 
 /**
  * FXML Controller class
@@ -257,23 +255,22 @@ public class ViewSupplyerController implements Initializable {
         System.out.println("clicked to delete");
         acContent.setOpacity(0.5);
         ListSupplyer selectedSupplyer = tblSupplyer.getSelectionModel().getSelectedItem();
-        Action delete = Dialogs.create().title("Sucess")
-                .masthead("Confirm to delete!!")
-                .actions(Dialog.ACTION_YES,Dialog.ACTION_NO)
-                .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                .message("Are you sure to delete " + "  '" + selectedSupplyer.getSupplyerName() + "' ??")
-                .showConfirm();
-
-        if (delete == Dialog.ACTION_YES) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Login Now");
+        alert.setHeaderText("Confirm");
+        alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+        alert.initStyle(StageStyle.UNDECORATED);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             supplyer.id = selectedSupplyer.getSupplyerId();
             System.out.println(supplyer.id+ "On hear");
             supplyerBLL.delete(supplyer);
-            acContent.setOpacity(1);
             tblSupplyer.getItems().clear();
             showDetails();
         }else{
-            acContent.setOpacity(1);
+            
         }
+        
 
 
     }

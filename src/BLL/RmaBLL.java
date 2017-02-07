@@ -4,16 +4,16 @@ import DAL.RMA;
 import DAL.Supplyer;
 import Getway.RmaGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Created by rifat on 8/15/15.
@@ -25,6 +25,8 @@ public class RmaBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public void save(RMA rma){
         if(isUniqName(rma)){
@@ -52,7 +54,7 @@ public class RmaBLL {
     public boolean sameName(RMA rma){
         boolean sameName =false;
         try {
-            pst = con.prepareStatement("select * from RMA where Id=? and RMAName=? and RMADays=?");
+            pst = con.prepareStatement("select * from "+db+".RMA where Id=? and RMAName=? and RMADays=?");
             pst.setString(1, rma.id);
             pst.setString(2, rma.rmaName);
             pst.setString(3, rma.rmaDays);
@@ -72,18 +74,19 @@ public class RmaBLL {
 
         boolean uniqRMA = false;
         try {
-            pst = con.prepareCall("select * from RMA where RMAName=? or RMADays=?");
+            pst = con.prepareCall("select * from "+db+".RMA where RMAName=? or RMADays=?");
             pst.setString(1, rma.rmaName);
             pst.setString(2, rma.rmaDays);
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .lightweight()
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("RMA" + "  '" + rma.rmaName +"/"+ rma.rmaDays + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : used");
+                alert.setContentText("RMA" + "  '" + rma.rmaName +"/"+ rma.rmaDays + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+                
                 return uniqRMA;
             }
             uniqRMA = true;

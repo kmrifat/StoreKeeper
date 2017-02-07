@@ -6,6 +6,7 @@
 package controller.application.settings;
 
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -27,6 +28,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -34,11 +36,9 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
+import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import media.userNameMedia;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -67,8 +67,6 @@ public class OrgSettingController implements Initializable {
     private String imagePath;
 
     private userNameMedia usrIdMedia;
-    
-    
 
     DBConnection dbCon = new DBConnection();
     Connection con;
@@ -80,6 +78,9 @@ public class OrgSettingController implements Initializable {
     private TextArea taContactNumber;
     @FXML
     private TextArea taAdddress;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     public userNameMedia getUsrIdMedia() {
         return usrIdMedia;
@@ -97,8 +98,8 @@ public class OrgSettingController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         BooleanBinding boolenBind = tfOrganizeName.textProperty().isEmpty()
                 .or(tfWebSite.textProperty().isEmpty()
-                .or(taContactNumber.textProperty().isEmpty())
-                .or(taAdddress.textProperty().isEmpty()));
+                        .or(taContactNumber.textProperty().isEmpty())
+                        .or(taAdddress.textProperty().isEmpty()));
 
         btnSaveOrganize.disableProperty().bind(boolenBind);
     }
@@ -147,7 +148,7 @@ public class OrgSettingController implements Initializable {
     public void showDetails() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Organize where Id=?");
+            pst = con.prepareStatement("select * from "+db+".Organize where Id=?");
             pst.setString(1, "1");
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -178,7 +179,7 @@ public class OrgSettingController implements Initializable {
         boolean dataFound = true;
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from Organize ORDER BY Id ASC LIMIT 1");
+            pst = con.prepareStatement("select * from "+db+".Organize ORDER BY Id ASC LIMIT 1");
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("Data Found");
@@ -199,7 +200,7 @@ public class OrgSettingController implements Initializable {
     private void updateOrganizeWithImage() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=?,OrgLogo=? where Id=1");
+            pst = con.prepareStatement("Update "+db+".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=?,OrgLogo=? where Id=1");
 
             pst.setString(1, tfOrganizeName.getText());
             pst.setString(2, tfWebSite.getText());
@@ -218,13 +219,12 @@ public class OrgSettingController implements Initializable {
             }
 
             pst.executeUpdate();
-            Action upDate = Dialogs.create()
-                    .title("")
-                    .actions(Dialog.ACTION_OK)
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Update Data Sucessfuly")
-                    .showConfirm();
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Update");
+            alert.setHeaderText("Update ");
+            alert.setContentText("Update Sucessfully");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
         } catch (SQLException ex) {
             Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -237,7 +237,7 @@ public class OrgSettingController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("insert into Organize values(?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Organize values(?,?,?,?,?,?,?)");
             pst.setString(1, "1");
             pst.setString(2, tfOrganizeName.getText());
             pst.setString(3, tfWebSite.getText());
@@ -256,12 +256,12 @@ public class OrgSettingController implements Initializable {
             }
             pst.setString(7, userId);
             pst.executeUpdate();
-            Action upDate = Dialogs.create()
-                    .title("")
-                    .actions(Dialog.ACTION_OK)
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Insert Data Sucessfuly")
-                    .showConfirm();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Update");
+            alert.setHeaderText("Sucess ");
+            alert.setContentText("Insert Data Sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
 
         } catch (SQLException ex) {
             Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);
@@ -274,7 +274,7 @@ public class OrgSettingController implements Initializable {
     private void updateOrganizeWithOutImage() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("Update Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=? where Id=1");
+            pst = con.prepareStatement("Update "+db+".Organize set OrgName=?,OrgWeb=?,OrgContactNumbers=?,OrgContactAddress=? where Id=1");
 
             pst.setString(1, tfOrganizeName.getText());
             pst.setString(2, tfWebSite.getText());
@@ -282,12 +282,12 @@ public class OrgSettingController implements Initializable {
             pst.setString(4, taAdddress.getText());
 
             pst.executeUpdate();
-            Action upDate = Dialogs.create()
-                    .title("")
-                    .actions(Dialog.ACTION_OK)
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .message("Sucess")
-                    .showConfirm();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Update");
+            alert.setHeaderText("Sucess ");
+            alert.setContentText("Update sucessfuly");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.showAndWait();
 
         } catch (SQLException ex) {
             Logger.getLogger(OrgSettingController.class.getName()).log(Level.SEVERE, null, ex);

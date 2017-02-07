@@ -45,9 +45,8 @@ import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import media.userNameMedia;
 import DAL.Users;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
+import dataBase.DBProperties;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -92,6 +91,9 @@ public class MyAccountController implements Initializable {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     private String userID;
 
@@ -123,7 +125,7 @@ public class MyAccountController implements Initializable {
     }
 
     @FXML
-    private void btnSaveOnAction(ActionEvent event){
+    private void btnSaveOnAction(ActionEvent event) {
         users.userName = tfUserName.getText();
         users.fullName = tfFullName.getText();
         users.emailAddress = tfEmailAddress.getText();
@@ -140,16 +142,16 @@ public class MyAccountController implements Initializable {
 
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where id=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where id=?");
             pst.setString(1, userID);
             rs = pst.executeQuery();
             while (rs.next()) {
                 if (rs.getInt("ChangeOwnPass") != 0) {
                     System.out.println("You can change your password");
-                    
+
                     PassChangeController pcc = new PassChangeController();
                     userNameMedia nameMedia = new userNameMedia();
-                    
+
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/view/application/settings/PassChange.fxml"));
                     loader.load();
@@ -166,14 +168,12 @@ public class MyAccountController implements Initializable {
                     nStage.initStyle(StageStyle.TRANSPARENT);
                     nStage.show();
                 } else {
-                    Action ad = Dialogs.create()
-                            .title("")
-                            .actions(Dialog.ACTION_OK)
-                            .message("You cann't change your password\n \n"
-                                    + "Contact to your admin to take control \n \n"
-                                    + "changing password")
-                            .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                            .showError();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Permiss");
+                    alert.setHeaderText("Permission denied");
+                    alert.setContentText("You are no longer to make change your password");
+                    alert.initStyle(StageStyle.UNDECORATED);
+
                 }
             }
         } catch (SQLException ex) {
@@ -188,7 +188,7 @@ public class MyAccountController implements Initializable {
 
     }
 
-    public void showDetails(){
+    public void showDetails() {
         users.id = userID;
         usersGetway.selectedView(users);
         tfUserName.setText(users.userName);
@@ -203,7 +203,7 @@ public class MyAccountController implements Initializable {
     public void accountPermission() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where UserId=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where UserId=?");
 
         } catch (SQLException ex) {
             Logger.getLogger(MyAccountController.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,7 +216,7 @@ public class MyAccountController implements Initializable {
         FileChooser.ExtensionFilter extFilterjpg = new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
         FileChooser.ExtensionFilter extFilterpng = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
 
-        fileChooser.getExtensionFilters().addAll(extFilterjpg,extFilterpng);
+        fileChooser.getExtensionFilters().addAll(extFilterjpg, extFilterpng);
 
         file = fileChooser.showOpenDialog(null);
 
@@ -229,14 +229,13 @@ public class MyAccountController implements Initializable {
                 retImage.setFill(new ImagePattern(image));
                 imgPath = file.getAbsolutePath();
             } else {
-                Action ad = Dialogs.create()
-                        .title("Your image File is too big")
-                        .actions(Dialog.ACTION_OK)
-                        .message("Your image File is too big\n \n"
-                                + "This image you is too big to save \n \n"
-                                + "please chosse another later")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .showError();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Permiss");
+                alert.setHeaderText("Permission denied");
+                alert.setContentText("Your Image file is too big to upload \nplease choise another image");
+                alert.initStyle(StageStyle.UNDECORATED);
+
             }
 
         }
@@ -249,16 +248,11 @@ public class MyAccountController implements Initializable {
                 || tfContractNumber.getText().trim().length() == 0
                 || tfEmailAddress.getText().trim().length() == 0) {
             notNull = false;
-            apMyAccountMother.setOpacity(0.54);
-            Action ad = Dialogs.create()
-                    .title("Update Sucess")
-                    .actions(Dialog.ACTION_OK)
-                    .message("Please Fill All Text Field \n \n")
-                    .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                    .showError();
-            if (ad == Dialog.ACTION_OK) {
-                apMyAccountMother.setOpacity(1.0);
-            }
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERROR ");
+                alert.setContentText("Please Fill all requere fields");
+                alert.initStyle(StageStyle.UNDECORATED);
         } else {
             notNull = true;
             System.out.println("Not Null");

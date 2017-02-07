@@ -35,15 +35,15 @@ import media.userNameMedia;
 import List.ListProduct;
 import controller.application.SettingsController;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  * FXML Controller class
@@ -55,7 +55,10 @@ public class CurrentStoreController implements Initializable {
     CurrentProduct productCurrent = new CurrentProduct();
     CurrentProductGetway currentProductGetway = new CurrentProductGetway();
     CurrentProductBLL currentProductBLL = new CurrentProductBLL();
-
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
+    
     private String usrId;
 
     private userNameMedia media;
@@ -282,8 +285,13 @@ public class CurrentStoreController implements Initializable {
 
     @FXML
     private void btnDeleteOnAction(ActionEvent event) {
-        Action delete = Dialogs.create().title("").masthead("Comfirm").message("Are you sure").styleClass(org.controlsfx.dialog.Dialog.STYLE_CLASS_UNDECORATED).actions(org.controlsfx.dialog.Dialog.ACTION_YES, org.controlsfx.dialog.Dialog.ACTION_NO).showConfirm();
-        if (delete == org.controlsfx.dialog.Dialog.ACTION_YES) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Login Now");
+        alert.setHeaderText("Confirm");
+        alert.setContentText("Are you sure to delete this item \n to Confirm click ok");
+        alert.initStyle(StageStyle.UNDECORATED);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             String item = tblViewCurrentStore.getSelectionModel().getSelectedItem().getId();
             System.out.println("Product id" + item);
             productCurrent.id = item;
@@ -294,7 +302,8 @@ public class CurrentStoreController implements Initializable {
     }
 
     @FXML
-    private void tblViewCurrentStoreOnClick(MouseEvent event) {
+    private void tblViewCurrentStoreOnClick(MouseEvent event
+    ) {
         if (event.getClickCount() == 2) {
             if (!tblViewCurrentStore.getSelectionModel().isEmpty()) {
                 viewSelected();
@@ -435,7 +444,7 @@ public class CurrentStoreController implements Initializable {
     public void settingPermission() {
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("select * from UserPermission where id=?");
+            pst = con.prepareStatement("select * from "+db+".UserPermission where id=?");
             pst.setString(1, usrId);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -445,12 +454,10 @@ public class CurrentStoreController implements Initializable {
                 }
                 if (rs.getInt(3) == 0) {
                     btnAddNew.setDisable(true);
-                } 
-                if(rs.getInt("SellProduct") == 0){
-                    miSellSelected.setDisable(true);
                 }
-                
-                else {
+                if (rs.getInt("SellProduct") == 0) {
+                    miSellSelected.setDisable(true);
+                } else {
 
                 }
             }
@@ -471,7 +478,7 @@ public class CurrentStoreController implements Initializable {
         cbSoteViewBrands.setPromptText("select brands");
         cbSoteViewCatagory.setPromptText("select category");
         cbSoteViewRMA.setPromptText("select rma");
-        
+
         tblViewCurrentStore.setItems(productCurrent.currentProductList);
         tblClmProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
         tblClmProductName.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -496,7 +503,7 @@ public class CurrentStoreController implements Initializable {
         rmaName = cbSoteViewRMA.getSelectionModel().getSelectedItem();
         System.out.println("Rma Name " + rmaName);
         try {
-            pst = con.prepareStatement("select * from RMA where RMAName=?");
+            pst = con.prepareStatement("select * from "+db+".RMA where RMAName=?");
             pst.setString(1, rmaName);
             rs = pst.executeQuery();
             while (rs.next()) {
@@ -514,9 +521,9 @@ public class CurrentStoreController implements Initializable {
 
     @FXML
     private void tblViewCurrentStoreOnScroll(ScrollEvent event) {
-        if(event.isInertia()){
+        if (event.isInertia()) {
             System.out.println("ALT DOWN");
-        }else{
+        } else {
             System.out.println("Noting");
         }
     }

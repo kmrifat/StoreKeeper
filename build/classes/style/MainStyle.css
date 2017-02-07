@@ -84,6 +84,10 @@ and open the template in the editor.
     -fx-text-fill: white;
 }
 
+#hl-database{
+    -fx-text-fill: white;
+}
+
 .hyperlink{
     -fx-text-fill: blue;
 }

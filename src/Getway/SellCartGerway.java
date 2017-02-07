@@ -3,6 +3,7 @@ package Getway;
 import DAL.SellCart;
 import List.ListSold;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
 
 import java.sql.Connection;
@@ -12,8 +13,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
 
 /**
  * Created by rifat on 8/16/15.
@@ -24,12 +23,15 @@ public class SellCartGerway {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
 
     public void save(SellCart sellCart){
         con = dbCon.geConnection();
         try {
-            pst = con.prepareStatement("insert into Sell values(?,?,?,?,?,?,?,?,?,?,?)");
+            pst = con.prepareStatement("insert into "+db+".Sell values(?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, null);
             pst.setString(2, sellCart.sellID);
             pst.setString(3, sellCart.customerID);
@@ -55,7 +57,7 @@ public class SellCartGerway {
         con = dbCon.geConnection();
         SQL sql = new SQL();
         try {
-            pst = con.prepareStatement("select * from Sell");
+            pst = con.prepareStatement("select * from "+db+".Sell");
             rs = pst.executeQuery();
             while (rs.next()){
                 sellCart.Id = rs.getString(1);
@@ -86,7 +88,7 @@ public class SellCartGerway {
         con = dbCon.geConnection();
         SQL sql = new SQL();
         try {
-            pst = con.prepareStatement("select * from Sell limit 0,15");
+            pst = con.prepareStatement("select * from "+db+".Sell limit 0,15");
             rs = pst.executeQuery();
             while (rs.next()){
                 sellCart.Id = rs.getString(1);
@@ -118,7 +120,7 @@ public class SellCartGerway {
         sellCart.carts.clear();
         SQL sql = new SQL();
         try {
-            pst = con.prepareStatement("select * from Sell where SellId like ?");
+            pst = con.prepareStatement("select * from "+db+".Sell where SellId like ?");
             pst.setString(1, "%" + sellCart.sellID + "%");
             rs = pst.executeQuery();
             while (rs.next()){

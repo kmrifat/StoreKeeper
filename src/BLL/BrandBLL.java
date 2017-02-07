@@ -4,16 +4,16 @@ import DAL.Brands;
 import DAL.Supplyer;
 import Getway.BrandsGetway;
 import dataBase.DBConnection;
+import dataBase.DBProperties;
 import dataBase.SQL;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Created by rifat on 8/15/15.
@@ -26,6 +26,9 @@ public class BrandBLL {
     Connection con = dbCon.geConnection();
     PreparedStatement pst;
     ResultSet rs;
+    
+    DBProperties dBProperties = new DBProperties();
+    String db = dBProperties.loadPropertiesFile();
 
     BrandsGetway brandsGetway = new BrandsGetway();
 
@@ -58,7 +61,7 @@ public class BrandBLL {
         System.out.println("we are in update");
 
         try {
-            pst = con.prepareStatement("SELECT * FROM Brands WHERE BrandName =? AND SupplyerId =? AND Id =?");
+            pst = con.prepareStatement("SELECT * FROM "+db+".Brands WHERE BrandName =? AND SupplyerId =? AND Id =?");
             pst.setString(1, brands.brandName);
             pst.setString(2, brands.supplyrId);
             pst.setString(3, brands.id);
@@ -77,18 +80,20 @@ public class BrandBLL {
     public boolean isUniqName(Brands brands) {
         boolean uniqSupplyer = false;
         try {
-            pst = con.prepareCall("select * from Brands where BrandName=? and SupplyerId=?");
+            pst = con.prepareCall("select * from "+db+".Brands where BrandName=? and SupplyerId=?");
             brands.supplyrId = sql.getIdNo(brands.supplyerName, brands.supplyrId, "Supplyer", "SupplyerName");
             pst.setString(1, brands.brandName);
             pst.setString(2, brands.supplyrId);
             rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println("in not uniq");
-                Dialogs.create().title("Sucess")
-                        .masthead("Warning")
-                        .styleClass(Dialog.STYLE_CLASS_UNDECORATED)
-                        .message("Brand" + "  '" + brands.brandName + "' " + "Already exist")
-                        .showWarning();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sucess");
+                alert.setHeaderText("ERROR : used");
+                alert.setContentText("Brand" + "  '" + brands.brandName + "' " + "Already exist");
+                alert.initStyle(StageStyle.UNDECORATED);
+                alert.showAndWait();
+               
                 return uniqSupplyer;
             }
             uniqSupplyer = true;
